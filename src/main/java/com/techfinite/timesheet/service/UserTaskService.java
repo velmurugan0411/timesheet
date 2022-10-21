@@ -58,13 +58,6 @@ public class UserTaskService {
         return userTaskRepository
             .findById(userTask.getUserTaskId())
             .map(existingUserTask -> {
-                if (userTask.getUserId() != null) {
-                    existingUserTask.setUserId(userTask.getUserId());
-                }
-                if (userTask.getTaskId() != null) {
-                    existingUserTask.setTaskId(userTask.getTaskId());
-                }
-
                 return existingUserTask;
             })
             .map(userTaskRepository::save);

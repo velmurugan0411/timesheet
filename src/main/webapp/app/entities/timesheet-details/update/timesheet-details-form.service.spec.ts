@@ -20,9 +20,6 @@ describe('TimesheetDetails Form Service', () => {
         expect(formGroup.controls).toEqual(
           expect.objectContaining({
             timesheetDetailsId: expect.any(Object),
-            taskId: expect.any(Object),
-            timesheetId: expect.any(Object),
-            timeoffTypeId: expect.any(Object),
             workdate: expect.any(Object),
             hours: expect.any(Object),
             timeoffTypeId: expect.any(Object),
@@ -38,9 +35,6 @@ describe('TimesheetDetails Form Service', () => {
         expect(formGroup.controls).toEqual(
           expect.objectContaining({
             timesheetDetailsId: expect.any(Object),
-            taskId: expect.any(Object),
-            timesheetId: expect.any(Object),
-            timeoffTypeId: expect.any(Object),
             workdate: expect.any(Object),
             hours: expect.any(Object),
             timeoffTypeId: expect.any(Object),

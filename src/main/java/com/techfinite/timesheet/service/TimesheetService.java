@@ -58,12 +58,6 @@ public class TimesheetService {
         return timesheetRepository
             .findById(timesheet.getTimesheetId())
             .map(existingTimesheet -> {
-                if (timesheet.getUserId() != null) {
-                    existingTimesheet.setUserId(timesheet.getUserId());
-                }
-                if (timesheet.getTimesheetStatusId() != null) {
-                    existingTimesheet.setTimesheetStatusId(timesheet.getTimesheetStatusId());
-                }
                 if (timesheet.getPeriodStartingDate() != null) {
                     existingTimesheet.setPeriodStartingDate(timesheet.getPeriodStartingDate());
                 }

@@ -28,18 +28,6 @@ public class TimesheetDetails implements Serializable {
     private Long timesheetDetailsId;
 
     @NotNull
-    @Column(name = "task_id", nullable = false)
-    private Long taskId;
-
-    @NotNull
-    @Column(name = "timesheet_id", nullable = false)
-    private Long timesheetId;
-
-    @NotNull
-    @Column(name = "timeoff_type_id", nullable = false)
-    private Long timeoffTypeId;
-
-    @NotNull
     @Column(name = "workdate", nullable = false)
     private Instant workdate;
 
@@ -47,16 +35,18 @@ public class TimesheetDetails implements Serializable {
     @Column(name = "hours", nullable = false)
     private Integer hours;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     private TimeoffType timeoffTypeId;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties(value = { "projectId" }, allowSetters = true)
     private Task taskId;
 
     @ManyToOne(optional = false)
     @NotNull
-    @JsonIgnoreProperties(value = { "timesheetIds", "timesheetStatusId" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "timesheetIds", "timesheetStatusId", "userId" }, allowSetters = true)
     private Timesheet timesheetId;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -72,45 +62,6 @@ public class TimesheetDetails implements Serializable {
 
     public void setTimesheetDetailsId(Long timesheetDetailsId) {
         this.timesheetDetailsId = timesheetDetailsId;
-    }
-
-    public Long getTaskId() {
-        return this.taskId;
-    }
-
-    public TimesheetDetails taskId(Long taskId) {
-        this.setTaskId(taskId);
-        return this;
-    }
-
-    public void setTaskId(Long taskId) {
-        this.taskId = taskId;
-    }
-
-    public Long getTimesheetId() {
-        return this.timesheetId;
-    }
-
-    public TimesheetDetails timesheetId(Long timesheetId) {
-        this.setTimesheetId(timesheetId);
-        return this;
-    }
-
-    public void setTimesheetId(Long timesheetId) {
-        this.timesheetId = timesheetId;
-    }
-
-    public Long getTimeoffTypeId() {
-        return this.timeoffTypeId;
-    }
-
-    public TimesheetDetails timeoffTypeId(Long timeoffTypeId) {
-        this.setTimeoffTypeId(timeoffTypeId);
-        return this;
-    }
-
-    public void setTimeoffTypeId(Long timeoffTypeId) {
-        this.timeoffTypeId = timeoffTypeId;
     }
 
     public Instant getWorkdate() {
@@ -202,9 +153,6 @@ public class TimesheetDetails implements Serializable {
     public String toString() {
         return "TimesheetDetails{" +
             "timesheetDetailsId=" + getTimesheetDetailsId() +
-            ", taskId=" + getTaskId() +
-            ", timesheetId=" + getTimesheetId() +
-            ", timeoffTypeId=" + getTimeoffTypeId() +
             ", workdate='" + getWorkdate() + "'" +
             ", hours=" + getHours() +
             "}";

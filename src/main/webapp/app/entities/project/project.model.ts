@@ -3,7 +3,6 @@ import { ICustomer } from 'app/entities/customer/customer.model';
 
 export interface IProject {
   projectId: number;
-  customerId?: number | null;
   projectName?: string | null;
   description?: string | null;
   startDate?: dayjs.Dayjs | null;

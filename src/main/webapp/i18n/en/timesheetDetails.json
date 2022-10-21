@@ -18,9 +18,6 @@
         "title": "Timesheet Details"
       },
       "timesheetDetailsId": "Timesheet Details Id",
-      "taskId": "Task Id",
-      "timesheetId": "Timesheet Id",
-      "timeoffTypeId": "Timeoff Type Id",
       "workdate": "Workdate",
       "hours": "Hours",
       "timeoffTypeId": "Timeoff Type Id",

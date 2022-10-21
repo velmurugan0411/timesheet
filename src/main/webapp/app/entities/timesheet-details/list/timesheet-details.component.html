@@ -36,15 +36,6 @@
             <span jhiTranslate="timesheetApp.timesheetDetails.timesheetDetailsId">Timesheet Details Id</span>
             <fa-icon icon="sort"></fa-icon>
           </th>
-          <th scope="col" jhiSortBy="taskId">
-            <span jhiTranslate="timesheetApp.timesheetDetails.taskId">Task Id</span> <fa-icon icon="sort"></fa-icon>
-          </th>
-          <th scope="col" jhiSortBy="timesheetId">
-            <span jhiTranslate="timesheetApp.timesheetDetails.timesheetId">Timesheet Id</span> <fa-icon icon="sort"></fa-icon>
-          </th>
-          <th scope="col" jhiSortBy="timeoffTypeId">
-            <span jhiTranslate="timesheetApp.timesheetDetails.timeoffTypeId">Timeoff Type Id</span> <fa-icon icon="sort"></fa-icon>
-          </th>
           <th scope="col" jhiSortBy="workdate">
             <span jhiTranslate="timesheetApp.timesheetDetails.workdate">Workdate</span> <fa-icon icon="sort"></fa-icon>
           </th>
@@ -70,9 +61,6 @@
               timesheetDetails.timesheetDetailsId
             }}</a>
           </td>
-          <td>{{ timesheetDetails.taskId }}</td>
-          <td>{{ timesheetDetails.timesheetId }}</td>
-          <td>{{ timesheetDetails.timeoffTypeId }}</td>
           <td>{{ timesheetDetails.workdate | formatMediumDatetime }}</td>
           <td>{{ timesheetDetails.hours }}</td>
           <td>

@@ -7,6 +7,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.techfinite.timesheet.IntegrationTest;
 import com.techfinite.timesheet.domain.Timesheet;
+import com.techfinite.timesheet.domain.TimesheetStatus;
+import com.techfinite.timesheet.domain.User;
 import com.techfinite.timesheet.repository.TimesheetRepository;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -30,12 +32,6 @@ import org.springframework.transaction.annotation.Transactional;
 @AutoConfigureMockMvc
 @WithMockUser
 class TimesheetResourceIT {
-
-    private static final Long DEFAULT_USER_ID = 1L;
-    private static final Long UPDATED_USER_ID = 2L;
-
-    private static final Long DEFAULT_TIMESHEET_STATUS_ID = 1L;
-    private static final Long UPDATED_TIMESHEET_STATUS_ID = 2L;
 
     private static final Instant DEFAULT_PERIOD_STARTING_DATE = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_PERIOD_STARTING_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
@@ -71,11 +67,24 @@ class TimesheetResourceIT {
      */
     public static Timesheet createEntity(EntityManager em) {
         Timesheet timesheet = new Timesheet()
-            .userId(DEFAULT_USER_ID)
-            .timesheetStatusId(DEFAULT_TIMESHEET_STATUS_ID)
             .periodStartingDate(DEFAULT_PERIOD_STARTING_DATE)
             .periodEndingDate(DEFAULT_PERIOD_ENDING_DATE)
             .notes(DEFAULT_NOTES);
+        // Add required entity
+        TimesheetStatus timesheetStatus;
+        if (TestUtil.findAll(em, TimesheetStatus.class).isEmpty()) {
+            timesheetStatus = TimesheetStatusResourceIT.createEntity(em);
+            em.persist(timesheetStatus);
+            em.flush();
+        } else {
+            timesheetStatus = TestUtil.findAll(em, TimesheetStatus.class).get(0);
+        }
+        timesheet.setTimesheetStatusId(timesheetStatus);
+        // Add required entity
+        User user = UserResourceIT.createEntity(em);
+        em.persist(user);
+        em.flush();
+        timesheet.setUserId(user);
         return timesheet;
     }
 
@@ -87,11 +96,24 @@ class TimesheetResourceIT {
      */
     public static Timesheet createUpdatedEntity(EntityManager em) {
         Timesheet timesheet = new Timesheet()
-            .userId(UPDATED_USER_ID)
-            .timesheetStatusId(UPDATED_TIMESHEET_STATUS_ID)
             .periodStartingDate(UPDATED_PERIOD_STARTING_DATE)
             .periodEndingDate(UPDATED_PERIOD_ENDING_DATE)
             .notes(UPDATED_NOTES);
+        // Add required entity
+        TimesheetStatus timesheetStatus;
+        if (TestUtil.findAll(em, TimesheetStatus.class).isEmpty()) {
+            timesheetStatus = TimesheetStatusResourceIT.createUpdatedEntity(em);
+            em.persist(timesheetStatus);
+            em.flush();
+        } else {
+            timesheetStatus = TestUtil.findAll(em, TimesheetStatus.class).get(0);
+        }
+        timesheet.setTimesheetStatusId(timesheetStatus);
+        // Add required entity
+        User user = UserResourceIT.createEntity(em);
+        em.persist(user);
+        em.flush();
+        timesheet.setUserId(user);
         return timesheet;
     }
 
@@ -113,8 +135,6 @@ class TimesheetResourceIT {
         List<Timesheet> timesheetList = timesheetRepository.findAll();
         assertThat(timesheetList).hasSize(databaseSizeBeforeCreate + 1);
         Timesheet testTimesheet = timesheetList.get(timesheetList.size() - 1);
-        assertThat(testTimesheet.getUserId()).isEqualTo(DEFAULT_USER_ID);
-        assertThat(testTimesheet.getTimesheetStatusId()).isEqualTo(DEFAULT_TIMESHEET_STATUS_ID);
         assertThat(testTimesheet.getPeriodStartingDate()).isEqualTo(DEFAULT_PERIOD_STARTING_DATE);
         assertThat(testTimesheet.getPeriodEndingDate()).isEqualTo(DEFAULT_PERIOD_ENDING_DATE);
         assertThat(testTimesheet.getNotes()).isEqualTo(DEFAULT_NOTES);
@@ -136,40 +156,6 @@ class TimesheetResourceIT {
         // Validate the Timesheet in the database
         List<Timesheet> timesheetList = timesheetRepository.findAll();
         assertThat(timesheetList).hasSize(databaseSizeBeforeCreate);
-    }
-
-    @Test
-    @Transactional
-    void checkUserIdIsRequired() throws Exception {
-        int databaseSizeBeforeTest = timesheetRepository.findAll().size();
-        // set the field null
-        timesheet.setUserId(null);
-
-        // Create the Timesheet, which fails.
-
-        restTimesheetMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(timesheet)))
-            .andExpect(status().isBadRequest());
-
-        List<Timesheet> timesheetList = timesheetRepository.findAll();
-        assertThat(timesheetList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    void checkTimesheetStatusIdIsRequired() throws Exception {
-        int databaseSizeBeforeTest = timesheetRepository.findAll().size();
-        // set the field null
-        timesheet.setTimesheetStatusId(null);
-
-        // Create the Timesheet, which fails.
-
-        restTimesheetMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(timesheet)))
-            .andExpect(status().isBadRequest());
-
-        List<Timesheet> timesheetList = timesheetRepository.findAll();
-        assertThat(timesheetList).hasSize(databaseSizeBeforeTest);
     }
 
     @Test
@@ -218,8 +204,6 @@ class TimesheetResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].timesheetId").value(hasItem(timesheet.getTimesheetId().intValue())))
-            .andExpect(jsonPath("$.[*].userId").value(hasItem(DEFAULT_USER_ID.intValue())))
-            .andExpect(jsonPath("$.[*].timesheetStatusId").value(hasItem(DEFAULT_TIMESHEET_STATUS_ID.intValue())))
             .andExpect(jsonPath("$.[*].periodStartingDate").value(hasItem(DEFAULT_PERIOD_STARTING_DATE.toString())))
             .andExpect(jsonPath("$.[*].periodEndingDate").value(hasItem(DEFAULT_PERIOD_ENDING_DATE.toString())))
             .andExpect(jsonPath("$.[*].notes").value(hasItem(DEFAULT_NOTES)));
@@ -237,8 +221,6 @@ class TimesheetResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.timesheetId").value(timesheet.getTimesheetId().intValue()))
-            .andExpect(jsonPath("$.userId").value(DEFAULT_USER_ID.intValue()))
-            .andExpect(jsonPath("$.timesheetStatusId").value(DEFAULT_TIMESHEET_STATUS_ID.intValue()))
             .andExpect(jsonPath("$.periodStartingDate").value(DEFAULT_PERIOD_STARTING_DATE.toString()))
             .andExpect(jsonPath("$.periodEndingDate").value(DEFAULT_PERIOD_ENDING_DATE.toString()))
             .andExpect(jsonPath("$.notes").value(DEFAULT_NOTES));
@@ -263,12 +245,7 @@ class TimesheetResourceIT {
         Timesheet updatedTimesheet = timesheetRepository.findById(timesheet.getTimesheetId()).get();
         // Disconnect from session so that the updates on updatedTimesheet are not directly saved in db
         em.detach(updatedTimesheet);
-        updatedTimesheet
-            .userId(UPDATED_USER_ID)
-            .timesheetStatusId(UPDATED_TIMESHEET_STATUS_ID)
-            .periodStartingDate(UPDATED_PERIOD_STARTING_DATE)
-            .periodEndingDate(UPDATED_PERIOD_ENDING_DATE)
-            .notes(UPDATED_NOTES);
+        updatedTimesheet.periodStartingDate(UPDATED_PERIOD_STARTING_DATE).periodEndingDate(UPDATED_PERIOD_ENDING_DATE).notes(UPDATED_NOTES);
 
         restTimesheetMockMvc
             .perform(
@@ -282,8 +259,6 @@ class TimesheetResourceIT {
         List<Timesheet> timesheetList = timesheetRepository.findAll();
         assertThat(timesheetList).hasSize(databaseSizeBeforeUpdate);
         Timesheet testTimesheet = timesheetList.get(timesheetList.size() - 1);
-        assertThat(testTimesheet.getUserId()).isEqualTo(UPDATED_USER_ID);
-        assertThat(testTimesheet.getTimesheetStatusId()).isEqualTo(UPDATED_TIMESHEET_STATUS_ID);
         assertThat(testTimesheet.getPeriodStartingDate()).isEqualTo(UPDATED_PERIOD_STARTING_DATE);
         assertThat(testTimesheet.getPeriodEndingDate()).isEqualTo(UPDATED_PERIOD_ENDING_DATE);
         assertThat(testTimesheet.getNotes()).isEqualTo(UPDATED_NOTES);
@@ -357,10 +332,7 @@ class TimesheetResourceIT {
         Timesheet partialUpdatedTimesheet = new Timesheet();
         partialUpdatedTimesheet.setTimesheetId(timesheet.getTimesheetId());
 
-        partialUpdatedTimesheet
-            .userId(UPDATED_USER_ID)
-            .timesheetStatusId(UPDATED_TIMESHEET_STATUS_ID)
-            .periodEndingDate(UPDATED_PERIOD_ENDING_DATE);
+        partialUpdatedTimesheet.periodStartingDate(UPDATED_PERIOD_STARTING_DATE).periodEndingDate(UPDATED_PERIOD_ENDING_DATE);
 
         restTimesheetMockMvc
             .perform(
@@ -374,9 +346,7 @@ class TimesheetResourceIT {
         List<Timesheet> timesheetList = timesheetRepository.findAll();
         assertThat(timesheetList).hasSize(databaseSizeBeforeUpdate);
         Timesheet testTimesheet = timesheetList.get(timesheetList.size() - 1);
-        assertThat(testTimesheet.getUserId()).isEqualTo(UPDATED_USER_ID);
-        assertThat(testTimesheet.getTimesheetStatusId()).isEqualTo(UPDATED_TIMESHEET_STATUS_ID);
-        assertThat(testTimesheet.getPeriodStartingDate()).isEqualTo(DEFAULT_PERIOD_STARTING_DATE);
+        assertThat(testTimesheet.getPeriodStartingDate()).isEqualTo(UPDATED_PERIOD_STARTING_DATE);
         assertThat(testTimesheet.getPeriodEndingDate()).isEqualTo(UPDATED_PERIOD_ENDING_DATE);
         assertThat(testTimesheet.getNotes()).isEqualTo(DEFAULT_NOTES);
     }
@@ -394,8 +364,6 @@ class TimesheetResourceIT {
         partialUpdatedTimesheet.setTimesheetId(timesheet.getTimesheetId());
 
         partialUpdatedTimesheet
-            .userId(UPDATED_USER_ID)
-            .timesheetStatusId(UPDATED_TIMESHEET_STATUS_ID)
             .periodStartingDate(UPDATED_PERIOD_STARTING_DATE)
             .periodEndingDate(UPDATED_PERIOD_ENDING_DATE)
             .notes(UPDATED_NOTES);
@@ -412,8 +380,6 @@ class TimesheetResourceIT {
         List<Timesheet> timesheetList = timesheetRepository.findAll();
         assertThat(timesheetList).hasSize(databaseSizeBeforeUpdate);
         Timesheet testTimesheet = timesheetList.get(timesheetList.size() - 1);
-        assertThat(testTimesheet.getUserId()).isEqualTo(UPDATED_USER_ID);
-        assertThat(testTimesheet.getTimesheetStatusId()).isEqualTo(UPDATED_TIMESHEET_STATUS_ID);
         assertThat(testTimesheet.getPeriodStartingDate()).isEqualTo(UPDATED_PERIOD_STARTING_DATE);
         assertThat(testTimesheet.getPeriodEndingDate()).isEqualTo(UPDATED_PERIOD_ENDING_DATE);
         assertThat(testTimesheet.getNotes()).isEqualTo(UPDATED_NOTES);

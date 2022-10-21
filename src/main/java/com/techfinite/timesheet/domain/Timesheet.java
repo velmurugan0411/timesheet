@@ -30,14 +30,6 @@ public class Timesheet implements Serializable {
     private Long timesheetId;
 
     @NotNull
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
-
-    @NotNull
-    @Column(name = "timesheet_status_id", nullable = false)
-    private Long timesheetStatusId;
-
-    @NotNull
     @Column(name = "period_starting_date", nullable = false)
     private Instant periodStartingDate;
 
@@ -53,8 +45,13 @@ public class Timesheet implements Serializable {
     @JsonIgnoreProperties(value = { "timeoffTypeId", "taskId", "timesheetId" }, allowSetters = true)
     private Set<TimesheetDetails> timesheetIds = new HashSet<>();
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     private TimesheetStatus timesheetStatusId;
+
+    @ManyToOne(optional = false)
+    @NotNull
+    private User userId;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -69,32 +66,6 @@ public class Timesheet implements Serializable {
 
     public void setTimesheetId(Long timesheetId) {
         this.timesheetId = timesheetId;
-    }
-
-    public Long getUserId() {
-        return this.userId;
-    }
-
-    public Timesheet userId(Long userId) {
-        this.setUserId(userId);
-        return this;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public Long getTimesheetStatusId() {
-        return this.timesheetStatusId;
-    }
-
-    public Timesheet timesheetStatusId(Long timesheetStatusId) {
-        this.setTimesheetStatusId(timesheetStatusId);
-        return this;
-    }
-
-    public void setTimesheetStatusId(Long timesheetStatusId) {
-        this.timesheetStatusId = timesheetStatusId;
     }
 
     public Instant getPeriodStartingDate() {
@@ -180,6 +151,19 @@ public class Timesheet implements Serializable {
         return this;
     }
 
+    public User getUserId() {
+        return this.userId;
+    }
+
+    public void setUserId(User user) {
+        this.userId = user;
+    }
+
+    public Timesheet userId(User user) {
+        this.setUserId(user);
+        return this;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -204,8 +188,6 @@ public class Timesheet implements Serializable {
     public String toString() {
         return "Timesheet{" +
             "timesheetId=" + getTimesheetId() +
-            ", userId=" + getUserId() +
-            ", timesheetStatusId=" + getTimesheetStatusId() +
             ", periodStartingDate='" + getPeriodStartingDate() + "'" +
             ", periodEndingDate='" + getPeriodEndingDate() + "'" +
             ", notes='" + getNotes() + "'" +

@@ -14,14 +14,6 @@
         <dd>
           <span>{{ timesheet.timesheetId }}</span>
         </dd>
-        <dt><span jhiTranslate="timesheetApp.timesheet.userId">User Id</span></dt>
-        <dd>
-          <span>{{ timesheet.userId }}</span>
-        </dd>
-        <dt><span jhiTranslate="timesheetApp.timesheet.timesheetStatusId">Timesheet Status Id</span></dt>
-        <dd>
-          <span>{{ timesheet.timesheetStatusId }}</span>
-        </dd>
         <dt><span jhiTranslate="timesheetApp.timesheet.periodStartingDate">Period Starting Date</span></dt>
         <dd>
           <span>{{ timesheet.periodStartingDate | formatMediumDatetime }}</span>
@@ -41,6 +33,10 @@
               timesheet.timesheetStatusId?.timesheetStatusId
             }}</a>
           </div>
+        </dd>
+        <dt><span jhiTranslate="timesheetApp.timesheet.userId">User Id</span></dt>
+        <dd>
+          <span>{{ timesheet.userId?.id }}</span>
         </dd>
       </dl>
 

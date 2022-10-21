@@ -26,10 +26,6 @@ public class Task implements Serializable {
     @Column(name = "task_id", nullable = false)
     private Long taskId;
 
-    @NotNull
-    @Column(name = "project_id", nullable = false)
-    private Long projectId;
-
     @Column(name = "task_name")
     private String taskName;
 
@@ -57,19 +53,6 @@ public class Task implements Serializable {
 
     public void setTaskId(Long taskId) {
         this.taskId = taskId;
-    }
-
-    public Long getProjectId() {
-        return this.projectId;
-    }
-
-    public Task projectId(Long projectId) {
-        this.setProjectId(projectId);
-        return this;
-    }
-
-    public void setProjectId(Long projectId) {
-        this.projectId = projectId;
     }
 
     public String getTaskName() {
@@ -148,7 +131,6 @@ public class Task implements Serializable {
     public String toString() {
         return "Task{" +
             "taskId=" + getTaskId() +
-            ", projectId=" + getProjectId() +
             ", taskName='" + getTaskName() + "'" +
             ", description='" + getDescription() + "'" +
             ", activeInd='" + getActiveInd() + "'" +

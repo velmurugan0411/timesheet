@@ -20,7 +20,6 @@ describe('Task Form Service', () => {
         expect(formGroup.controls).toEqual(
           expect.objectContaining({
             taskId: expect.any(Object),
-            projectId: expect.any(Object),
             taskName: expect.any(Object),
             description: expect.any(Object),
             activeInd: expect.any(Object),
@@ -35,7 +34,6 @@ describe('Task Form Service', () => {
         expect(formGroup.controls).toEqual(
           expect.objectContaining({
             taskId: expect.any(Object),
-            projectId: expect.any(Object),
             taskName: expect.any(Object),
             description: expect.any(Object),
             activeInd: expect.any(Object),

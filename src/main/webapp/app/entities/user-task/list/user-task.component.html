@@ -35,10 +35,10 @@
           <th scope="col" jhiSortBy="userTaskId">
             <span jhiTranslate="timesheetApp.userTask.userTaskId">User Task Id</span> <fa-icon icon="sort"></fa-icon>
           </th>
-          <th scope="col" jhiSortBy="userId">
+          <th scope="col" jhiSortBy="userId.id">
             <span jhiTranslate="timesheetApp.userTask.userId">User Id</span> <fa-icon icon="sort"></fa-icon>
           </th>
-          <th scope="col" jhiSortBy="taskId">
+          <th scope="col" jhiSortBy="taskId.taskId">
             <span jhiTranslate="timesheetApp.userTask.taskId">Task Id</span> <fa-icon icon="sort"></fa-icon>
           </th>
           <th scope="col"></th>
@@ -49,8 +49,14 @@
           <td>
             <a [routerLink]="['/user-task', userTask.userTaskId, 'view']">{{ userTask.userTaskId }}</a>
           </td>
-          <td>{{ userTask.userId }}</td>
-          <td>{{ userTask.taskId }}</td>
+          <td>
+            {{ userTask.userId?.id }}
+          </td>
+          <td>
+            <div *ngIf="userTask.taskId">
+              <a [routerLink]="['/task', userTask.taskId.taskId, 'view']">{{ userTask.taskId?.taskId }}</a>
+            </div>
+          </td>
           <td class="text-end">
             <div class="btn-group">
               <button

@@ -14,21 +14,6 @@
       }
     },
     {
-      "fieldName": "taskId",
-      "fieldType": "Long",
-      "fieldValidateRules": ["required"]
-    },
-    {
-      "fieldName": "timesheetId",
-      "fieldType": "Long",
-      "fieldValidateRules": ["required"]
-    },
-    {
-      "fieldName": "timeoffTypeId",
-      "fieldType": "Long",
-      "fieldValidateRules": ["required"]
-    },
-    {
       "fieldName": "workdate",
       "fieldType": "Instant",
       "fieldValidateRules": ["required"]
@@ -49,12 +34,14 @@
     {
       "otherEntityName": "timeoffType",
       "relationshipName": "timeoffTypeId",
-      "relationshipType": "many-to-one"
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
     },
     {
       "otherEntityName": "task",
       "relationshipName": "taskId",
-      "relationshipType": "many-to-one"
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
     },
     {
       "otherEntityName": "timesheet",

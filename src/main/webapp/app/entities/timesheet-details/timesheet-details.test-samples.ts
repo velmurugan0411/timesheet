@@ -4,37 +4,25 @@ import { ITimesheetDetails, NewTimesheetDetails } from './timesheet-details.mode
 
 export const sampleWithRequiredData: ITimesheetDetails = {
   timesheetDetailsId: 14854,
-  taskId: 52692,
-  timesheetId: 90988,
-  timeoffTypeId: 83239,
+  workdate: dayjs('2022-10-20T15:14'),
+  hours: 90988,
+};
+
+export const sampleWithPartialData: ITimesheetDetails = {
+  timesheetDetailsId: 83239,
   workdate: dayjs('2022-10-20T11:58'),
   hours: 9789,
 };
 
-export const sampleWithPartialData: ITimesheetDetails = {
-  timesheetDetailsId: 52227,
-  taskId: 64480,
-  timesheetId: 35810,
-  timeoffTypeId: 89786,
-  workdate: dayjs('2022-10-20T16:29'),
-  hours: 96162,
-};
-
 export const sampleWithFullData: ITimesheetDetails = {
-  timesheetDetailsId: 44583,
-  taskId: 18486,
-  timesheetId: 89432,
-  timeoffTypeId: 20926,
-  workdate: dayjs('2022-10-20T20:51'),
-  hours: 56593,
+  timesheetDetailsId: 52227,
+  workdate: dayjs('2022-10-20T12:24'),
+  hours: 35810,
 };
 
 export const sampleWithNewData: NewTimesheetDetails = {
-  taskId: 74876,
-  timesheetId: 8708,
-  timeoffTypeId: 33771,
-  workdate: dayjs('2022-10-20T11:56'),
-  hours: 76582,
+  workdate: dayjs('2022-10-20T06:20'),
+  hours: 47462,
   timesheetDetailsId: null,
 };
 

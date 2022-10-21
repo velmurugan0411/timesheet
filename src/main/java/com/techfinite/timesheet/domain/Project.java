@@ -29,10 +29,6 @@ public class Project implements Serializable {
     @Column(name = "project_id", nullable = false)
     private Long projectId;
 
-    @NotNull
-    @Column(name = "customer_id", nullable = false)
-    private Long customerId;
-
     @Column(name = "project_name")
     private String projectName;
 
@@ -70,19 +66,6 @@ public class Project implements Serializable {
 
     public void setProjectId(Long projectId) {
         this.projectId = projectId;
-    }
-
-    public Long getCustomerId() {
-        return this.customerId;
-    }
-
-    public Project customerId(Long customerId) {
-        this.setCustomerId(customerId);
-        return this;
-    }
-
-    public void setCustomerId(Long customerId) {
-        this.customerId = customerId;
     }
 
     public String getProjectName() {
@@ -205,7 +188,6 @@ public class Project implements Serializable {
     public String toString() {
         return "Project{" +
             "projectId=" + getProjectId() +
-            ", customerId=" + getCustomerId() +
             ", projectName='" + getProjectName() + "'" +
             ", description='" + getDescription() + "'" +
             ", startDate='" + getStartDate() + "'" +

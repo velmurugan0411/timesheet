@@ -49,81 +49,6 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" jhiTranslate="timesheetApp.timesheetDetails.taskId" for="field_taskId">Task Id</label>
-          <input type="number" class="form-control" name="taskId" id="field_taskId" data-cy="taskId" formControlName="taskId" />
-          <div *ngIf="editForm.get('taskId')!.invalid && (editForm.get('taskId')!.dirty || editForm.get('taskId')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('taskId')?.errors?.required" jhiTranslate="entity.validation.required">
-              This field is required.
-            </small>
-            <small class="form-text text-danger" [hidden]="!editForm.get('taskId')?.errors?.number" jhiTranslate="entity.validation.number">
-              This field should be a number.
-            </small>
-          </div>
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" jhiTranslate="timesheetApp.timesheetDetails.timesheetId" for="field_timesheetId">Timesheet Id</label>
-          <input
-            type="number"
-            class="form-control"
-            name="timesheetId"
-            id="field_timesheetId"
-            data-cy="timesheetId"
-            formControlName="timesheetId"
-          />
-          <div *ngIf="editForm.get('timesheetId')!.invalid && (editForm.get('timesheetId')!.dirty || editForm.get('timesheetId')!.touched)">
-            <small
-              class="form-text text-danger"
-              *ngIf="editForm.get('timesheetId')?.errors?.required"
-              jhiTranslate="entity.validation.required"
-            >
-              This field is required.
-            </small>
-            <small
-              class="form-text text-danger"
-              [hidden]="!editForm.get('timesheetId')?.errors?.number"
-              jhiTranslate="entity.validation.number"
-            >
-              This field should be a number.
-            </small>
-          </div>
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" jhiTranslate="timesheetApp.timesheetDetails.timeoffTypeId" for="field_timeoffTypeId"
-            >Timeoff Type Id</label
-          >
-          <input
-            type="number"
-            class="form-control"
-            name="timeoffTypeId"
-            id="field_timeoffTypeId"
-            data-cy="timeoffTypeId"
-            formControlName="timeoffTypeId"
-          />
-          <div
-            *ngIf="
-              editForm.get('timeoffTypeId')!.invalid && (editForm.get('timeoffTypeId')!.dirty || editForm.get('timeoffTypeId')!.touched)
-            "
-          >
-            <small
-              class="form-text text-danger"
-              *ngIf="editForm.get('timeoffTypeId')?.errors?.required"
-              jhiTranslate="entity.validation.required"
-            >
-              This field is required.
-            </small>
-            <small
-              class="form-text text-danger"
-              [hidden]="!editForm.get('timeoffTypeId')?.errors?.number"
-              jhiTranslate="entity.validation.number"
-            >
-              This field should be a number.
-            </small>
-          </div>
-        </div>
-
-        <div class="row mb-3">
           <label class="form-label" jhiTranslate="timesheetApp.timesheetDetails.workdate" for="field_workdate">Workdate</label>
           <div class="d-flex">
             <input
@@ -179,11 +104,24 @@
             formControlName="timeoffTypeId"
             [compareWith]="compareTimeoffType"
           >
-            <option [ngValue]="null"></option>
+            <option *ngIf="!editForm.get('timeoffTypeId')!.value" [ngValue]="null" selected></option>
             <option [ngValue]="timeoffTypeOption" *ngFor="let timeoffTypeOption of timeoffTypesSharedCollection">
               {{ timeoffTypeOption.timeoffTypeId }}
             </option>
           </select>
+        </div>
+        <div
+          *ngIf="
+            editForm.get(['timeoffTypeId'])!.invalid && (editForm.get(['timeoffTypeId'])!.dirty || editForm.get(['timeoffTypeId'])!.touched)
+          "
+        >
+          <small
+            class="form-text text-danger"
+            *ngIf="editForm.get(['timeoffTypeId'])?.errors?.required"
+            jhiTranslate="entity.validation.required"
+          >
+            This field is required.
+          </small>
         </div>
 
         <div class="row mb-3">
@@ -196,9 +134,14 @@
             formControlName="taskId"
             [compareWith]="compareTask"
           >
-            <option [ngValue]="null"></option>
+            <option *ngIf="!editForm.get('taskId')!.value" [ngValue]="null" selected></option>
             <option [ngValue]="taskOption" *ngFor="let taskOption of tasksSharedCollection">{{ taskOption.taskId }}</option>
           </select>
+        </div>
+        <div *ngIf="editForm.get(['taskId'])!.invalid && (editForm.get(['taskId'])!.dirty || editForm.get(['taskId'])!.touched)">
+          <small class="form-text text-danger" *ngIf="editForm.get(['taskId'])?.errors?.required" jhiTranslate="entity.validation.required">
+            This field is required.
+          </small>
         </div>
 
         <div class="row mb-3">

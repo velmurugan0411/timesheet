@@ -4,34 +4,26 @@ import { ITimesheet, NewTimesheet } from './timesheet.model';
 
 export const sampleWithRequiredData: ITimesheet = {
   timesheetId: 56556,
-  userId: 81571,
-  timesheetStatusId: 83511,
-  periodStartingDate: dayjs('2022-10-21T00:35'),
-  periodEndingDate: dayjs('2022-10-20T04:12'),
+  periodStartingDate: dayjs('2022-10-20T08:17'),
+  periodEndingDate: dayjs('2022-10-20T07:49'),
 };
 
 export const sampleWithPartialData: ITimesheet = {
-  timesheetId: 38212,
-  userId: 7591,
-  timesheetStatusId: 52106,
-  periodStartingDate: dayjs('2022-10-20T10:23'),
-  periodEndingDate: dayjs('2022-10-20T12:17'),
+  timesheetId: 98566,
+  periodStartingDate: dayjs('2022-10-21T00:49'),
+  periodEndingDate: dayjs('2022-10-20T18:41'),
 };
 
 export const sampleWithFullData: ITimesheet = {
-  timesheetId: 72270,
-  userId: 17111,
-  timesheetStatusId: 63869,
-  periodStartingDate: dayjs('2022-10-20T21:30'),
-  periodEndingDate: dayjs('2022-10-21T01:26'),
-  notes: 'expedite Jordan',
+  timesheetId: 7591,
+  periodStartingDate: dayjs('2022-10-20T15:21'),
+  periodEndingDate: dayjs('2022-10-20T10:23'),
+  notes: 'microchip attitude-oriented',
 };
 
 export const sampleWithNewData: NewTimesheet = {
-  userId: 5702,
-  timesheetStatusId: 55438,
-  periodStartingDate: dayjs('2022-10-20T11:50'),
-  periodEndingDate: dayjs('2022-10-20T18:21'),
+  periodStartingDate: dayjs('2022-10-20T18:15'),
+  periodEndingDate: dayjs('2022-10-20T12:23'),
   timesheetId: null,
 };
 

@@ -59,9 +59,6 @@ public class ProjectService {
         return projectRepository
             .findById(project.getProjectId())
             .map(existingProject -> {
-                if (project.getCustomerId() != null) {
-                    existingProject.setCustomerId(project.getCustomerId());
-                }
                 if (project.getProjectName() != null) {
                     existingProject.setProjectName(project.getProjectName());
                 }

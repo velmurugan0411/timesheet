@@ -35,12 +35,6 @@
           <th scope="col" jhiSortBy="timesheetId">
             <span jhiTranslate="timesheetApp.timesheet.timesheetId">Timesheet Id</span> <fa-icon icon="sort"></fa-icon>
           </th>
-          <th scope="col" jhiSortBy="userId">
-            <span jhiTranslate="timesheetApp.timesheet.userId">User Id</span> <fa-icon icon="sort"></fa-icon>
-          </th>
-          <th scope="col" jhiSortBy="timesheetStatusId">
-            <span jhiTranslate="timesheetApp.timesheet.timesheetStatusId">Timesheet Status Id</span> <fa-icon icon="sort"></fa-icon>
-          </th>
           <th scope="col" jhiSortBy="periodStartingDate">
             <span jhiTranslate="timesheetApp.timesheet.periodStartingDate">Period Starting Date</span> <fa-icon icon="sort"></fa-icon>
           </th>
@@ -53,6 +47,9 @@
           <th scope="col" jhiSortBy="timesheetStatusId.timesheetStatusId">
             <span jhiTranslate="timesheetApp.timesheet.timesheetStatusId">Timesheet Status Id</span> <fa-icon icon="sort"></fa-icon>
           </th>
+          <th scope="col" jhiSortBy="userId.id">
+            <span jhiTranslate="timesheetApp.timesheet.userId">User Id</span> <fa-icon icon="sort"></fa-icon>
+          </th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -61,8 +58,6 @@
           <td>
             <a [routerLink]="['/timesheet', timesheet.timesheetId, 'view']">{{ timesheet.timesheetId }}</a>
           </td>
-          <td>{{ timesheet.userId }}</td>
-          <td>{{ timesheet.timesheetStatusId }}</td>
           <td>{{ timesheet.periodStartingDate | formatMediumDatetime }}</td>
           <td>{{ timesheet.periodEndingDate | formatMediumDatetime }}</td>
           <td>{{ timesheet.notes }}</td>
@@ -72,6 +67,9 @@
                 timesheet.timesheetStatusId?.timesheetStatusId
               }}</a>
             </div>
+          </td>
+          <td>
+            {{ timesheet.userId?.id }}
           </td>
           <td class="text-end">
             <div class="btn-group">

@@ -14,11 +14,6 @@
       }
     },
     {
-      "fieldName": "projectId",
-      "fieldType": "Long",
-      "fieldValidateRules": ["required"]
-    },
-    {
       "fieldName": "taskName",
       "fieldType": "String"
     },

@@ -20,12 +20,11 @@ describe('Timesheet Form Service', () => {
         expect(formGroup.controls).toEqual(
           expect.objectContaining({
             timesheetId: expect.any(Object),
-            userId: expect.any(Object),
-            timesheetStatusId: expect.any(Object),
             periodStartingDate: expect.any(Object),
             periodEndingDate: expect.any(Object),
             notes: expect.any(Object),
             timesheetStatusId: expect.any(Object),
+            userId: expect.any(Object),
           })
         );
       });
@@ -36,12 +35,11 @@ describe('Timesheet Form Service', () => {
         expect(formGroup.controls).toEqual(
           expect.objectContaining({
             timesheetId: expect.any(Object),
-            userId: expect.any(Object),
-            timesheetStatusId: expect.any(Object),
             periodStartingDate: expect.any(Object),
             periodEndingDate: expect.any(Object),
             notes: expect.any(Object),
             timesheetStatusId: expect.any(Object),
+            userId: expect.any(Object),
           })
         );
       });

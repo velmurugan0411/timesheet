@@ -6,6 +6,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.techfinite.timesheet.IntegrationTest;
+import com.techfinite.timesheet.domain.Task;
+import com.techfinite.timesheet.domain.TimeoffType;
 import com.techfinite.timesheet.domain.Timesheet;
 import com.techfinite.timesheet.domain.TimesheetDetails;
 import com.techfinite.timesheet.repository.TimesheetDetailsRepository;
@@ -31,15 +33,6 @@ import org.springframework.transaction.annotation.Transactional;
 @AutoConfigureMockMvc
 @WithMockUser
 class TimesheetDetailsResourceIT {
-
-    private static final Long DEFAULT_TASK_ID = 1L;
-    private static final Long UPDATED_TASK_ID = 2L;
-
-    private static final Long DEFAULT_TIMESHEET_ID = 1L;
-    private static final Long UPDATED_TIMESHEET_ID = 2L;
-
-    private static final Long DEFAULT_TIMEOFF_TYPE_ID = 1L;
-    private static final Long UPDATED_TIMEOFF_TYPE_ID = 2L;
 
     private static final Instant DEFAULT_WORKDATE = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_WORKDATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
@@ -71,12 +64,27 @@ class TimesheetDetailsResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static TimesheetDetails createEntity(EntityManager em) {
-        TimesheetDetails timesheetDetails = new TimesheetDetails()
-            .taskId(DEFAULT_TASK_ID)
-            .timesheetId(DEFAULT_TIMESHEET_ID)
-            .timeoffTypeId(DEFAULT_TIMEOFF_TYPE_ID)
-            .workdate(DEFAULT_WORKDATE)
-            .hours(DEFAULT_HOURS);
+        TimesheetDetails timesheetDetails = new TimesheetDetails().workdate(DEFAULT_WORKDATE).hours(DEFAULT_HOURS);
+        // Add required entity
+        TimeoffType timeoffType;
+        if (TestUtil.findAll(em, TimeoffType.class).isEmpty()) {
+            timeoffType = TimeoffTypeResourceIT.createEntity(em);
+            em.persist(timeoffType);
+            em.flush();
+        } else {
+            timeoffType = TestUtil.findAll(em, TimeoffType.class).get(0);
+        }
+        timesheetDetails.setTimeoffTypeId(timeoffType);
+        // Add required entity
+        Task task;
+        if (TestUtil.findAll(em, Task.class).isEmpty()) {
+            task = TaskResourceIT.createEntity(em);
+            em.persist(task);
+            em.flush();
+        } else {
+            task = TestUtil.findAll(em, Task.class).get(0);
+        }
+        timesheetDetails.setTaskId(task);
         // Add required entity
         Timesheet timesheet;
         if (TestUtil.findAll(em, Timesheet.class).isEmpty()) {
@@ -97,12 +105,27 @@ class TimesheetDetailsResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static TimesheetDetails createUpdatedEntity(EntityManager em) {
-        TimesheetDetails timesheetDetails = new TimesheetDetails()
-            .taskId(UPDATED_TASK_ID)
-            .timesheetId(UPDATED_TIMESHEET_ID)
-            .timeoffTypeId(UPDATED_TIMEOFF_TYPE_ID)
-            .workdate(UPDATED_WORKDATE)
-            .hours(UPDATED_HOURS);
+        TimesheetDetails timesheetDetails = new TimesheetDetails().workdate(UPDATED_WORKDATE).hours(UPDATED_HOURS);
+        // Add required entity
+        TimeoffType timeoffType;
+        if (TestUtil.findAll(em, TimeoffType.class).isEmpty()) {
+            timeoffType = TimeoffTypeResourceIT.createUpdatedEntity(em);
+            em.persist(timeoffType);
+            em.flush();
+        } else {
+            timeoffType = TestUtil.findAll(em, TimeoffType.class).get(0);
+        }
+        timesheetDetails.setTimeoffTypeId(timeoffType);
+        // Add required entity
+        Task task;
+        if (TestUtil.findAll(em, Task.class).isEmpty()) {
+            task = TaskResourceIT.createUpdatedEntity(em);
+            em.persist(task);
+            em.flush();
+        } else {
+            task = TestUtil.findAll(em, Task.class).get(0);
+        }
+        timesheetDetails.setTaskId(task);
         // Add required entity
         Timesheet timesheet;
         if (TestUtil.findAll(em, Timesheet.class).isEmpty()) {
@@ -136,9 +159,6 @@ class TimesheetDetailsResourceIT {
         List<TimesheetDetails> timesheetDetailsList = timesheetDetailsRepository.findAll();
         assertThat(timesheetDetailsList).hasSize(databaseSizeBeforeCreate + 1);
         TimesheetDetails testTimesheetDetails = timesheetDetailsList.get(timesheetDetailsList.size() - 1);
-        assertThat(testTimesheetDetails.getTaskId()).isEqualTo(DEFAULT_TASK_ID);
-        assertThat(testTimesheetDetails.getTimesheetId()).isEqualTo(DEFAULT_TIMESHEET_ID);
-        assertThat(testTimesheetDetails.getTimeoffTypeId()).isEqualTo(DEFAULT_TIMEOFF_TYPE_ID);
         assertThat(testTimesheetDetails.getWorkdate()).isEqualTo(DEFAULT_WORKDATE);
         assertThat(testTimesheetDetails.getHours()).isEqualTo(DEFAULT_HOURS);
     }
@@ -161,63 +181,6 @@ class TimesheetDetailsResourceIT {
         // Validate the TimesheetDetails in the database
         List<TimesheetDetails> timesheetDetailsList = timesheetDetailsRepository.findAll();
         assertThat(timesheetDetailsList).hasSize(databaseSizeBeforeCreate);
-    }
-
-    @Test
-    @Transactional
-    void checkTaskIdIsRequired() throws Exception {
-        int databaseSizeBeforeTest = timesheetDetailsRepository.findAll().size();
-        // set the field null
-        timesheetDetails.setTaskId(null);
-
-        // Create the TimesheetDetails, which fails.
-
-        restTimesheetDetailsMockMvc
-            .perform(
-                post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(timesheetDetails))
-            )
-            .andExpect(status().isBadRequest());
-
-        List<TimesheetDetails> timesheetDetailsList = timesheetDetailsRepository.findAll();
-        assertThat(timesheetDetailsList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    void checkTimesheetIdIsRequired() throws Exception {
-        int databaseSizeBeforeTest = timesheetDetailsRepository.findAll().size();
-        // set the field null
-        timesheetDetails.setTimesheetId(null);
-
-        // Create the TimesheetDetails, which fails.
-
-        restTimesheetDetailsMockMvc
-            .perform(
-                post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(timesheetDetails))
-            )
-            .andExpect(status().isBadRequest());
-
-        List<TimesheetDetails> timesheetDetailsList = timesheetDetailsRepository.findAll();
-        assertThat(timesheetDetailsList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    void checkTimeoffTypeIdIsRequired() throws Exception {
-        int databaseSizeBeforeTest = timesheetDetailsRepository.findAll().size();
-        // set the field null
-        timesheetDetails.setTimeoffTypeId(null);
-
-        // Create the TimesheetDetails, which fails.
-
-        restTimesheetDetailsMockMvc
-            .perform(
-                post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(timesheetDetails))
-            )
-            .andExpect(status().isBadRequest());
-
-        List<TimesheetDetails> timesheetDetailsList = timesheetDetailsRepository.findAll();
-        assertThat(timesheetDetailsList).hasSize(databaseSizeBeforeTest);
     }
 
     @Test
@@ -270,9 +233,6 @@ class TimesheetDetailsResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].timesheetDetailsId").value(hasItem(timesheetDetails.getTimesheetDetailsId().intValue())))
-            .andExpect(jsonPath("$.[*].taskId").value(hasItem(DEFAULT_TASK_ID.intValue())))
-            .andExpect(jsonPath("$.[*].timesheetId").value(hasItem(DEFAULT_TIMESHEET_ID.intValue())))
-            .andExpect(jsonPath("$.[*].timeoffTypeId").value(hasItem(DEFAULT_TIMEOFF_TYPE_ID.intValue())))
             .andExpect(jsonPath("$.[*].workdate").value(hasItem(DEFAULT_WORKDATE.toString())))
             .andExpect(jsonPath("$.[*].hours").value(hasItem(DEFAULT_HOURS)));
     }
@@ -289,9 +249,6 @@ class TimesheetDetailsResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.timesheetDetailsId").value(timesheetDetails.getTimesheetDetailsId().intValue()))
-            .andExpect(jsonPath("$.taskId").value(DEFAULT_TASK_ID.intValue()))
-            .andExpect(jsonPath("$.timesheetId").value(DEFAULT_TIMESHEET_ID.intValue()))
-            .andExpect(jsonPath("$.timeoffTypeId").value(DEFAULT_TIMEOFF_TYPE_ID.intValue()))
             .andExpect(jsonPath("$.workdate").value(DEFAULT_WORKDATE.toString()))
             .andExpect(jsonPath("$.hours").value(DEFAULT_HOURS));
     }
@@ -315,12 +272,7 @@ class TimesheetDetailsResourceIT {
         TimesheetDetails updatedTimesheetDetails = timesheetDetailsRepository.findById(timesheetDetails.getTimesheetDetailsId()).get();
         // Disconnect from session so that the updates on updatedTimesheetDetails are not directly saved in db
         em.detach(updatedTimesheetDetails);
-        updatedTimesheetDetails
-            .taskId(UPDATED_TASK_ID)
-            .timesheetId(UPDATED_TIMESHEET_ID)
-            .timeoffTypeId(UPDATED_TIMEOFF_TYPE_ID)
-            .workdate(UPDATED_WORKDATE)
-            .hours(UPDATED_HOURS);
+        updatedTimesheetDetails.workdate(UPDATED_WORKDATE).hours(UPDATED_HOURS);
 
         restTimesheetDetailsMockMvc
             .perform(
@@ -334,9 +286,6 @@ class TimesheetDetailsResourceIT {
         List<TimesheetDetails> timesheetDetailsList = timesheetDetailsRepository.findAll();
         assertThat(timesheetDetailsList).hasSize(databaseSizeBeforeUpdate);
         TimesheetDetails testTimesheetDetails = timesheetDetailsList.get(timesheetDetailsList.size() - 1);
-        assertThat(testTimesheetDetails.getTaskId()).isEqualTo(UPDATED_TASK_ID);
-        assertThat(testTimesheetDetails.getTimesheetId()).isEqualTo(UPDATED_TIMESHEET_ID);
-        assertThat(testTimesheetDetails.getTimeoffTypeId()).isEqualTo(UPDATED_TIMEOFF_TYPE_ID);
         assertThat(testTimesheetDetails.getWorkdate()).isEqualTo(UPDATED_WORKDATE);
         assertThat(testTimesheetDetails.getHours()).isEqualTo(UPDATED_HOURS);
     }
@@ -411,12 +360,7 @@ class TimesheetDetailsResourceIT {
         TimesheetDetails partialUpdatedTimesheetDetails = new TimesheetDetails();
         partialUpdatedTimesheetDetails.setTimesheetDetailsId(timesheetDetails.getTimesheetDetailsId());
 
-        partialUpdatedTimesheetDetails
-            .taskId(UPDATED_TASK_ID)
-            .timesheetId(UPDATED_TIMESHEET_ID)
-            .timeoffTypeId(UPDATED_TIMEOFF_TYPE_ID)
-            .workdate(UPDATED_WORKDATE)
-            .hours(UPDATED_HOURS);
+        partialUpdatedTimesheetDetails.workdate(UPDATED_WORKDATE).hours(UPDATED_HOURS);
 
         restTimesheetDetailsMockMvc
             .perform(
@@ -430,9 +374,6 @@ class TimesheetDetailsResourceIT {
         List<TimesheetDetails> timesheetDetailsList = timesheetDetailsRepository.findAll();
         assertThat(timesheetDetailsList).hasSize(databaseSizeBeforeUpdate);
         TimesheetDetails testTimesheetDetails = timesheetDetailsList.get(timesheetDetailsList.size() - 1);
-        assertThat(testTimesheetDetails.getTaskId()).isEqualTo(UPDATED_TASK_ID);
-        assertThat(testTimesheetDetails.getTimesheetId()).isEqualTo(UPDATED_TIMESHEET_ID);
-        assertThat(testTimesheetDetails.getTimeoffTypeId()).isEqualTo(UPDATED_TIMEOFF_TYPE_ID);
         assertThat(testTimesheetDetails.getWorkdate()).isEqualTo(UPDATED_WORKDATE);
         assertThat(testTimesheetDetails.getHours()).isEqualTo(UPDATED_HOURS);
     }
@@ -449,12 +390,7 @@ class TimesheetDetailsResourceIT {
         TimesheetDetails partialUpdatedTimesheetDetails = new TimesheetDetails();
         partialUpdatedTimesheetDetails.setTimesheetDetailsId(timesheetDetails.getTimesheetDetailsId());
 
-        partialUpdatedTimesheetDetails
-            .taskId(UPDATED_TASK_ID)
-            .timesheetId(UPDATED_TIMESHEET_ID)
-            .timeoffTypeId(UPDATED_TIMEOFF_TYPE_ID)
-            .workdate(UPDATED_WORKDATE)
-            .hours(UPDATED_HOURS);
+        partialUpdatedTimesheetDetails.workdate(UPDATED_WORKDATE).hours(UPDATED_HOURS);
 
         restTimesheetDetailsMockMvc
             .perform(
@@ -468,9 +404,6 @@ class TimesheetDetailsResourceIT {
         List<TimesheetDetails> timesheetDetailsList = timesheetDetailsRepository.findAll();
         assertThat(timesheetDetailsList).hasSize(databaseSizeBeforeUpdate);
         TimesheetDetails testTimesheetDetails = timesheetDetailsList.get(timesheetDetailsList.size() - 1);
-        assertThat(testTimesheetDetails.getTaskId()).isEqualTo(UPDATED_TASK_ID);
-        assertThat(testTimesheetDetails.getTimesheetId()).isEqualTo(UPDATED_TIMESHEET_ID);
-        assertThat(testTimesheetDetails.getTimeoffTypeId()).isEqualTo(UPDATED_TIMEOFF_TYPE_ID);
         assertThat(testTimesheetDetails.getWorkdate()).isEqualTo(UPDATED_WORKDATE);
         assertThat(testTimesheetDetails.getHours()).isEqualTo(UPDATED_HOURS);
     }

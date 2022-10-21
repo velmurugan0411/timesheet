@@ -4,32 +4,29 @@ import { IProject, NewProject } from './project.model';
 
 export const sampleWithRequiredData: IProject = {
   projectId: 55962,
-  customerId: 94324,
-  startDate: dayjs('2022-10-20T07:11'),
-  endDate: dayjs('2022-10-20T14:30'),
+  startDate: dayjs('2022-10-20T05:19'),
+  endDate: dayjs('2022-10-20T07:11'),
 };
 
 export const sampleWithPartialData: IProject = {
-  projectId: 25512,
-  customerId: 38489,
-  projectName: 'Investor Awesome users',
-  startDate: dayjs('2022-10-20T09:22'),
-  endDate: dayjs('2022-10-20T05:05'),
+  projectId: 27695,
+  projectName: 'redefine',
+  description: 'deposit redundant',
+  startDate: dayjs('2022-10-20T14:36'),
+  endDate: dayjs('2022-10-20T09:22'),
 };
 
 export const sampleWithFullData: IProject = {
-  projectId: 61186,
-  customerId: 87605,
-  projectName: 'enhance',
-  description: 'payment Centers',
-  startDate: dayjs('2022-10-20T05:37'),
-  endDate: dayjs('2022-10-20T21:18'),
+  projectId: 95336,
+  projectName: 'AGP Grass-roots',
+  description: 'Avon Ball',
+  startDate: dayjs('2022-10-20T05:51'),
+  endDate: dayjs('2022-10-20T13:21'),
 };
 
 export const sampleWithNewData: NewProject = {
-  customerId: 78732,
-  startDate: dayjs('2022-10-20T05:51'),
-  endDate: dayjs('2022-10-20T13:21'),
+  startDate: dayjs('2022-10-20T13:32'),
+  endDate: dayjs('2022-10-20T13:40'),
   projectId: null,
 };
 

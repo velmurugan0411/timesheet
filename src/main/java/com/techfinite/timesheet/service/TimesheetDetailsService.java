@@ -58,15 +58,6 @@ public class TimesheetDetailsService {
         return timesheetDetailsRepository
             .findById(timesheetDetails.getTimesheetDetailsId())
             .map(existingTimesheetDetails -> {
-                if (timesheetDetails.getTaskId() != null) {
-                    existingTimesheetDetails.setTaskId(timesheetDetails.getTaskId());
-                }
-                if (timesheetDetails.getTimesheetId() != null) {
-                    existingTimesheetDetails.setTimesheetId(timesheetDetails.getTimesheetId());
-                }
-                if (timesheetDetails.getTimeoffTypeId() != null) {
-                    existingTimesheetDetails.setTimeoffTypeId(timesheetDetails.getTimeoffTypeId());
-                }
                 if (timesheetDetails.getWorkdate() != null) {
                     existingTimesheetDetails.setWorkdate(timesheetDetails.getWorkdate());
                 }

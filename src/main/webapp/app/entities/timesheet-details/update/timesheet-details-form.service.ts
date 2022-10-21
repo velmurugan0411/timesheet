@@ -33,9 +33,6 @@ type TimesheetDetailsFormDefaults = Pick<NewTimesheetDetails, 'timesheetDetailsI
 
 type TimesheetDetailsFormGroupContent = {
   timesheetDetailsId: FormControl<TimesheetDetailsFormRawValue['timesheetDetailsId'] | NewTimesheetDetails['timesheetDetailsId']>;
-  taskId: FormControl<TimesheetDetailsFormRawValue['taskId']>;
-  timesheetId: FormControl<TimesheetDetailsFormRawValue['timesheetId']>;
-  timeoffTypeId: FormControl<TimesheetDetailsFormRawValue['timeoffTypeId']>;
   workdate: FormControl<TimesheetDetailsFormRawValue['workdate']>;
   hours: FormControl<TimesheetDetailsFormRawValue['hours']>;
   timeoffTypeId: FormControl<TimesheetDetailsFormRawValue['timeoffTypeId']>;
@@ -62,23 +59,18 @@ export class TimesheetDetailsFormService {
           validators: [Validators.required],
         }
       ),
-      taskId: new FormControl(timesheetDetailsRawValue.taskId, {
-        validators: [Validators.required],
-      }),
-      timesheetId: new FormControl(timesheetDetailsRawValue.timesheetId, {
-        validators: [Validators.required],
-      }),
-      timeoffTypeId: new FormControl(timesheetDetailsRawValue.timeoffTypeId, {
-        validators: [Validators.required],
-      }),
       workdate: new FormControl(timesheetDetailsRawValue.workdate, {
         validators: [Validators.required],
       }),
       hours: new FormControl(timesheetDetailsRawValue.hours, {
         validators: [Validators.required],
       }),
-      timeoffTypeId: new FormControl(timesheetDetailsRawValue.timeoffTypeId),
-      taskId: new FormControl(timesheetDetailsRawValue.taskId),
+      timeoffTypeId: new FormControl(timesheetDetailsRawValue.timeoffTypeId, {
+        validators: [Validators.required],
+      }),
+      taskId: new FormControl(timesheetDetailsRawValue.taskId, {
+        validators: [Validators.required],
+      }),
       timesheetId: new FormControl(timesheetDetailsRawValue.timesheetId, {
         validators: [Validators.required],
       }),

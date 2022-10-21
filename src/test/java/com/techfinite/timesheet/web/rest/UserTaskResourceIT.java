@@ -6,6 +6,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.techfinite.timesheet.IntegrationTest;
+import com.techfinite.timesheet.domain.Task;
+import com.techfinite.timesheet.domain.User;
 import com.techfinite.timesheet.domain.UserTask;
 import com.techfinite.timesheet.repository.UserTaskRepository;
 import java.util.List;
@@ -28,12 +30,6 @@ import org.springframework.transaction.annotation.Transactional;
 @AutoConfigureMockMvc
 @WithMockUser
 class UserTaskResourceIT {
-
-    private static final Long DEFAULT_USER_ID = 1L;
-    private static final Long UPDATED_USER_ID = 2L;
-
-    private static final Long DEFAULT_TASK_ID = 1L;
-    private static final Long UPDATED_TASK_ID = 2L;
 
     private static final String ENTITY_API_URL = "/api/user-tasks";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{userTaskId}";
@@ -59,7 +55,22 @@ class UserTaskResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static UserTask createEntity(EntityManager em) {
-        UserTask userTask = new UserTask().userId(DEFAULT_USER_ID).taskId(DEFAULT_TASK_ID);
+        UserTask userTask = new UserTask();
+        // Add required entity
+        User user = UserResourceIT.createEntity(em);
+        em.persist(user);
+        em.flush();
+        userTask.setUserId(user);
+        // Add required entity
+        Task task;
+        if (TestUtil.findAll(em, Task.class).isEmpty()) {
+            task = TaskResourceIT.createEntity(em);
+            em.persist(task);
+            em.flush();
+        } else {
+            task = TestUtil.findAll(em, Task.class).get(0);
+        }
+        userTask.setTaskId(task);
         return userTask;
     }
 
@@ -70,7 +81,22 @@ class UserTaskResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static UserTask createUpdatedEntity(EntityManager em) {
-        UserTask userTask = new UserTask().userId(UPDATED_USER_ID).taskId(UPDATED_TASK_ID);
+        UserTask userTask = new UserTask();
+        // Add required entity
+        User user = UserResourceIT.createEntity(em);
+        em.persist(user);
+        em.flush();
+        userTask.setUserId(user);
+        // Add required entity
+        Task task;
+        if (TestUtil.findAll(em, Task.class).isEmpty()) {
+            task = TaskResourceIT.createUpdatedEntity(em);
+            em.persist(task);
+            em.flush();
+        } else {
+            task = TestUtil.findAll(em, Task.class).get(0);
+        }
+        userTask.setTaskId(task);
         return userTask;
     }
 
@@ -92,8 +118,6 @@ class UserTaskResourceIT {
         List<UserTask> userTaskList = userTaskRepository.findAll();
         assertThat(userTaskList).hasSize(databaseSizeBeforeCreate + 1);
         UserTask testUserTask = userTaskList.get(userTaskList.size() - 1);
-        assertThat(testUserTask.getUserId()).isEqualTo(DEFAULT_USER_ID);
-        assertThat(testUserTask.getTaskId()).isEqualTo(DEFAULT_TASK_ID);
     }
 
     @Test
@@ -116,40 +140,6 @@ class UserTaskResourceIT {
 
     @Test
     @Transactional
-    void checkUserIdIsRequired() throws Exception {
-        int databaseSizeBeforeTest = userTaskRepository.findAll().size();
-        // set the field null
-        userTask.setUserId(null);
-
-        // Create the UserTask, which fails.
-
-        restUserTaskMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(userTask)))
-            .andExpect(status().isBadRequest());
-
-        List<UserTask> userTaskList = userTaskRepository.findAll();
-        assertThat(userTaskList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    void checkTaskIdIsRequired() throws Exception {
-        int databaseSizeBeforeTest = userTaskRepository.findAll().size();
-        // set the field null
-        userTask.setTaskId(null);
-
-        // Create the UserTask, which fails.
-
-        restUserTaskMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(userTask)))
-            .andExpect(status().isBadRequest());
-
-        List<UserTask> userTaskList = userTaskRepository.findAll();
-        assertThat(userTaskList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     void getAllUserTasks() throws Exception {
         // Initialize the database
         userTaskRepository.saveAndFlush(userTask);
@@ -159,9 +149,7 @@ class UserTaskResourceIT {
             .perform(get(ENTITY_API_URL + "?sort=userTaskId,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].userTaskId").value(hasItem(userTask.getUserTaskId().intValue())))
-            .andExpect(jsonPath("$.[*].userId").value(hasItem(DEFAULT_USER_ID.intValue())))
-            .andExpect(jsonPath("$.[*].taskId").value(hasItem(DEFAULT_TASK_ID.intValue())));
+            .andExpect(jsonPath("$.[*].userTaskId").value(hasItem(userTask.getUserTaskId().intValue())));
     }
 
     @Test
@@ -175,9 +163,7 @@ class UserTaskResourceIT {
             .perform(get(ENTITY_API_URL_ID, userTask.getUserTaskId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.userTaskId").value(userTask.getUserTaskId().intValue()))
-            .andExpect(jsonPath("$.userId").value(DEFAULT_USER_ID.intValue()))
-            .andExpect(jsonPath("$.taskId").value(DEFAULT_TASK_ID.intValue()));
+            .andExpect(jsonPath("$.userTaskId").value(userTask.getUserTaskId().intValue()));
     }
 
     @Test
@@ -199,7 +185,6 @@ class UserTaskResourceIT {
         UserTask updatedUserTask = userTaskRepository.findById(userTask.getUserTaskId()).get();
         // Disconnect from session so that the updates on updatedUserTask are not directly saved in db
         em.detach(updatedUserTask);
-        updatedUserTask.userId(UPDATED_USER_ID).taskId(UPDATED_TASK_ID);
 
         restUserTaskMockMvc
             .perform(
@@ -213,8 +198,6 @@ class UserTaskResourceIT {
         List<UserTask> userTaskList = userTaskRepository.findAll();
         assertThat(userTaskList).hasSize(databaseSizeBeforeUpdate);
         UserTask testUserTask = userTaskList.get(userTaskList.size() - 1);
-        assertThat(testUserTask.getUserId()).isEqualTo(UPDATED_USER_ID);
-        assertThat(testUserTask.getTaskId()).isEqualTo(UPDATED_TASK_ID);
     }
 
     @Test
@@ -297,8 +280,6 @@ class UserTaskResourceIT {
         List<UserTask> userTaskList = userTaskRepository.findAll();
         assertThat(userTaskList).hasSize(databaseSizeBeforeUpdate);
         UserTask testUserTask = userTaskList.get(userTaskList.size() - 1);
-        assertThat(testUserTask.getUserId()).isEqualTo(DEFAULT_USER_ID);
-        assertThat(testUserTask.getTaskId()).isEqualTo(DEFAULT_TASK_ID);
     }
 
     @Test
@@ -313,8 +294,6 @@ class UserTaskResourceIT {
         UserTask partialUpdatedUserTask = new UserTask();
         partialUpdatedUserTask.setUserTaskId(userTask.getUserTaskId());
 
-        partialUpdatedUserTask.userId(UPDATED_USER_ID).taskId(UPDATED_TASK_ID);
-
         restUserTaskMockMvc
             .perform(
                 patch(ENTITY_API_URL_ID, partialUpdatedUserTask.getUserTaskId())
@@ -327,8 +306,6 @@ class UserTaskResourceIT {
         List<UserTask> userTaskList = userTaskRepository.findAll();
         assertThat(userTaskList).hasSize(databaseSizeBeforeUpdate);
         UserTask testUserTask = userTaskList.get(userTaskList.size() - 1);
-        assertThat(testUserTask.getUserId()).isEqualTo(UPDATED_USER_ID);
-        assertThat(testUserTask.getTaskId()).isEqualTo(UPDATED_TASK_ID);
     }
 
     @Test

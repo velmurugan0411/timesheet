@@ -32,12 +32,11 @@ type TimesheetFormDefaults = Pick<NewTimesheet, 'timesheetId' | 'periodStartingD
 
 type TimesheetFormGroupContent = {
   timesheetId: FormControl<TimesheetFormRawValue['timesheetId'] | NewTimesheet['timesheetId']>;
-  userId: FormControl<TimesheetFormRawValue['userId']>;
-  timesheetStatusId: FormControl<TimesheetFormRawValue['timesheetStatusId']>;
   periodStartingDate: FormControl<TimesheetFormRawValue['periodStartingDate']>;
   periodEndingDate: FormControl<TimesheetFormRawValue['periodEndingDate']>;
   notes: FormControl<TimesheetFormRawValue['notes']>;
   timesheetStatusId: FormControl<TimesheetFormRawValue['timesheetStatusId']>;
+  userId: FormControl<TimesheetFormRawValue['userId']>;
 };
 
 export type TimesheetFormGroup = FormGroup<TimesheetFormGroupContent>;
@@ -57,12 +56,6 @@ export class TimesheetFormService {
           validators: [Validators.required],
         }
       ),
-      userId: new FormControl(timesheetRawValue.userId, {
-        validators: [Validators.required],
-      }),
-      timesheetStatusId: new FormControl(timesheetRawValue.timesheetStatusId, {
-        validators: [Validators.required],
-      }),
       periodStartingDate: new FormControl(timesheetRawValue.periodStartingDate, {
         validators: [Validators.required],
       }),
@@ -70,7 +63,12 @@ export class TimesheetFormService {
         validators: [Validators.required],
       }),
       notes: new FormControl(timesheetRawValue.notes),
-      timesheetStatusId: new FormControl(timesheetRawValue.timesheetStatusId),
+      timesheetStatusId: new FormControl(timesheetRawValue.timesheetStatusId, {
+        validators: [Validators.required],
+      }),
+      userId: new FormControl(timesheetRawValue.userId, {
+        validators: [Validators.required],
+      }),
     });
   }
 

@@ -16,11 +16,13 @@
         </dd>
         <dt><span jhiTranslate="timesheetApp.userTask.userId">User Id</span></dt>
         <dd>
-          <span>{{ userTask.userId }}</span>
+          <span>{{ userTask.userId?.id }}</span>
         </dd>
         <dt><span jhiTranslate="timesheetApp.userTask.taskId">Task Id</span></dt>
         <dd>
-          <span>{{ userTask.taskId }}</span>
+          <div *ngIf="userTask.taskId">
+            <a [routerLink]="['/task', userTask.taskId.taskId, 'view']">{{ userTask.taskId?.taskId }}</a>
+          </div>
         </dd>
       </dl>
 

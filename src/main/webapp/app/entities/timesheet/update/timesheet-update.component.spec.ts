@@ -12,6 +12,9 @@ import { ITimesheet } from '../timesheet.model';
 import { ITimesheetStatus } from 'app/entities/timesheet-status/timesheet-status.model';
 import { TimesheetStatusService } from 'app/entities/timesheet-status/service/timesheet-status.service';
 
+import { IUser } from 'app/entities/user/user.model';
+import { UserService } from 'app/entities/user/user.service';
+
 import { TimesheetUpdateComponent } from './timesheet-update.component';
 
 describe('Timesheet Management Update Component', () => {
@@ -21,6 +24,7 @@ describe('Timesheet Management Update Component', () => {
   let timesheetFormService: TimesheetFormService;
   let timesheetService: TimesheetService;
   let timesheetStatusService: TimesheetStatusService;
+  let userService: UserService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -44,6 +48,7 @@ describe('Timesheet Management Update Component', () => {
     timesheetFormService = TestBed.inject(TimesheetFormService);
     timesheetService = TestBed.inject(TimesheetService);
     timesheetStatusService = TestBed.inject(TimesheetStatusService);
+    userService = TestBed.inject(UserService);
 
     comp = fixture.componentInstance;
   });
@@ -71,15 +76,40 @@ describe('Timesheet Management Update Component', () => {
       expect(comp.timesheetStatusesSharedCollection).toEqual(expectedCollection);
     });
 
+    it('Should call User query and add missing value', () => {
+      const timesheet: ITimesheet = { timesheetId: 456 };
+      const userId: IUser = { id: 39292 };
+      timesheet.userId = userId;
+
+      const userCollection: IUser[] = [{ id: 77763 }];
+      jest.spyOn(userService, 'query').mockReturnValue(of(new HttpResponse({ body: userCollection })));
+      const additionalUsers = [userId];
+      const expectedCollection: IUser[] = [...additionalUsers, ...userCollection];
+      jest.spyOn(userService, 'addUserToCollectionIfMissing').mockReturnValue(expectedCollection);
+
+      activatedRoute.data = of({ timesheet });
+      comp.ngOnInit();
+
+      expect(userService.query).toHaveBeenCalled();
+      expect(userService.addUserToCollectionIfMissing).toHaveBeenCalledWith(
+        userCollection,
+        ...additionalUsers.map(expect.objectContaining)
+      );
+      expect(comp.usersSharedCollection).toEqual(expectedCollection);
+    });
+
     it('Should update editForm', () => {
       const timesheet: ITimesheet = { timesheetId: 456 };
       const timesheetStatusId: ITimesheetStatus = { timesheetStatusId: 4293 };
       timesheet.timesheetStatusId = timesheetStatusId;
+      const userId: IUser = { id: 1179 };
+      timesheet.userId = userId;
 
       activatedRoute.data = of({ timesheet });
       comp.ngOnInit();
 
       expect(comp.timesheetStatusesSharedCollection).toContain(timesheetStatusId);
+      expect(comp.usersSharedCollection).toContain(userId);
       expect(comp.timesheet).toEqual(timesheet);
     });
   });
@@ -160,6 +190,16 @@ describe('Timesheet Management Update Component', () => {
         jest.spyOn(timesheetStatusService, 'compareTimesheetStatus');
         comp.compareTimesheetStatus(entity, entity2);
         expect(timesheetStatusService.compareTimesheetStatus).toHaveBeenCalledWith(entity, entity2);
+      });
+    });
+
+    describe('compareUser', () => {
+      it('Should forward to userService', () => {
+        const entity = { id: 123 };
+        const entity2 = { id: 456 };
+        jest.spyOn(userService, 'compareUser');
+        comp.compareUser(entity, entity2);
+        expect(userService.compareUser).toHaveBeenCalledWith(entity, entity2);
       });
     });
   });

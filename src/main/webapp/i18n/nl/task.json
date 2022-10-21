@@ -18,7 +18,6 @@
         "title": "Task"
       },
       "taskId": "Task Id",
-      "projectId": "Project Id",
       "taskName": "Task Name",
       "description": "Description",
       "activeInd": "Active Ind",

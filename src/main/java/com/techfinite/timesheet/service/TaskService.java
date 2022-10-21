@@ -59,9 +59,6 @@ public class TaskService {
         return taskRepository
             .findById(task.getTaskId())
             .map(existingTask -> {
-                if (task.getProjectId() != null) {
-                    existingTask.setProjectId(task.getProjectId());
-                }
                 if (task.getTaskName() != null) {
                     existingTask.setTaskName(task.getTaskName());
                 }

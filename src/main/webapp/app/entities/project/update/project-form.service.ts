@@ -32,7 +32,6 @@ type ProjectFormDefaults = Pick<NewProject, 'projectId' | 'startDate' | 'endDate
 
 type ProjectFormGroupContent = {
   projectId: FormControl<ProjectFormRawValue['projectId'] | NewProject['projectId']>;
-  customerId: FormControl<ProjectFormRawValue['customerId']>;
   projectName: FormControl<ProjectFormRawValue['projectName']>;
   description: FormControl<ProjectFormRawValue['description']>;
   startDate: FormControl<ProjectFormRawValue['startDate']>;
@@ -57,9 +56,6 @@ export class ProjectFormService {
           validators: [Validators.required],
         }
       ),
-      customerId: new FormControl(projectRawValue.customerId, {
-        validators: [Validators.required],
-      }),
       projectName: new FormControl(projectRawValue.projectName),
       description: new FormControl(projectRawValue.description),
       startDate: new FormControl(projectRawValue.startDate, {

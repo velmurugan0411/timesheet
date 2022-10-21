@@ -20,8 +20,6 @@ application {
 /** Timesheet */
 entity Timesheet {
     @Id timesheetId Long required
-    userId Long required
-    timesheetStatusId Long required
     periodStartingDate Instant required
     periodEndingDate Instant required
     notes String
@@ -30,9 +28,6 @@ entity Timesheet {
 /** Timesheet Details */
 entity TimesheetDetails {
     @Id timesheetDetailsId Long required
-    taskId Long required
-    timesheetId Long required
-    timeoffTypeId Long required
     workdate Instant required
     hours Integer required
 }
@@ -53,15 +48,12 @@ entity TimesheetStatus {
 /** User Task */
 entity UserTask {
     @Id userTaskId Long required
-    userId Long required
-    taskId Long required
 }
 
 
 /**  Task */
 entity Task {
     @Id taskId Long required
-    projectId Long required
     taskName String
     description String
     activeInd Boolean
@@ -71,7 +63,6 @@ entity Task {
 /**  Project */
 entity Project {
     @Id projectId Long required
-    customerId Long required
     projectName String
     description String
     startDate Instant required
@@ -89,9 +80,13 @@ entity Customer {
 
 
 relationship ManyToOne {
-    Timesheet{timesheetStatusId} to TimesheetStatus
-    TimesheetDetails{timeoffTypeId} to TimeoffType
-    TimesheetDetails{taskId} to Task
+    Timesheet{timesheetStatusId required} to TimesheetStatus
+    TimesheetDetails{timeoffTypeId required} to TimeoffType
+    TimesheetDetails{taskId required} to Task
+    UserTask{userId required} to User
+    UserTask{taskId required} to Task
+    Timesheet{userId required} to User
+
 
 }
 

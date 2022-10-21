@@ -20,7 +20,6 @@ describe('Project Form Service', () => {
         expect(formGroup.controls).toEqual(
           expect.objectContaining({
             projectId: expect.any(Object),
-            customerId: expect.any(Object),
             projectName: expect.any(Object),
             description: expect.any(Object),
             startDate: expect.any(Object),
@@ -36,7 +35,6 @@ describe('Project Form Service', () => {
         expect(formGroup.controls).toEqual(
           expect.objectContaining({
             projectId: expect.any(Object),
-            customerId: expect.any(Object),
             projectName: expect.any(Object),
             description: expect.any(Object),
             startDate: expect.any(Object),

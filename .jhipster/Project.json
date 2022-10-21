@@ -14,11 +14,6 @@
       }
     },
     {
-      "fieldName": "customerId",
-      "fieldType": "Long",
-      "fieldValidateRules": ["required"]
-    },
-    {
       "fieldName": "projectName",
       "fieldType": "String"
     },

@@ -12,16 +12,6 @@
       "options": {
         "id": true
       }
-    },
-    {
-      "fieldName": "userId",
-      "fieldType": "Long",
-      "fieldValidateRules": ["required"]
-    },
-    {
-      "fieldName": "taskId",
-      "fieldType": "Long",
-      "fieldValidateRules": ["required"]
     }
   ],
   "fluentMethods": true,
@@ -30,6 +20,19 @@
   "name": "UserTask",
   "pagination": "no",
   "readOnly": false,
-  "relationships": [],
+  "relationships": [
+    {
+      "otherEntityName": "user",
+      "relationshipName": "userId",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    },
+    {
+      "otherEntityName": "task",
+      "relationshipName": "taskId",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    }
+  ],
   "service": "serviceClass"
 }

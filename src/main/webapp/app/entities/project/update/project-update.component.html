@@ -38,34 +38,6 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" jhiTranslate="timesheetApp.project.customerId" for="field_customerId">Customer Id</label>
-          <input
-            type="number"
-            class="form-control"
-            name="customerId"
-            id="field_customerId"
-            data-cy="customerId"
-            formControlName="customerId"
-          />
-          <div *ngIf="editForm.get('customerId')!.invalid && (editForm.get('customerId')!.dirty || editForm.get('customerId')!.touched)">
-            <small
-              class="form-text text-danger"
-              *ngIf="editForm.get('customerId')?.errors?.required"
-              jhiTranslate="entity.validation.required"
-            >
-              This field is required.
-            </small>
-            <small
-              class="form-text text-danger"
-              [hidden]="!editForm.get('customerId')?.errors?.number"
-              jhiTranslate="entity.validation.number"
-            >
-              This field should be a number.
-            </small>
-          </div>
-        </div>
-
-        <div class="row mb-3">
           <label class="form-label" jhiTranslate="timesheetApp.project.projectName" for="field_projectName">Project Name</label>
           <input
             type="text"

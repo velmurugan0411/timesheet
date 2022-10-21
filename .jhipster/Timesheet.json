@@ -14,16 +14,6 @@
       }
     },
     {
-      "fieldName": "userId",
-      "fieldType": "Long",
-      "fieldValidateRules": ["required"]
-    },
-    {
-      "fieldName": "timesheetStatusId",
-      "fieldType": "Long",
-      "fieldValidateRules": ["required"]
-    },
-    {
       "fieldName": "periodStartingDate",
       "fieldType": "Instant",
       "fieldValidateRules": ["required"]
@@ -54,7 +44,14 @@
     {
       "otherEntityName": "timesheetStatus",
       "relationshipName": "timesheetStatusId",
-      "relationshipType": "many-to-one"
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    },
+    {
+      "otherEntityName": "user",
+      "relationshipName": "userId",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
     }
   ],
   "service": "serviceClass"

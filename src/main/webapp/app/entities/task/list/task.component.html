@@ -35,9 +35,6 @@
           <th scope="col" jhiSortBy="taskId">
             <span jhiTranslate="timesheetApp.task.taskId">Task Id</span> <fa-icon icon="sort"></fa-icon>
           </th>
-          <th scope="col" jhiSortBy="projectId">
-            <span jhiTranslate="timesheetApp.task.projectId">Project Id</span> <fa-icon icon="sort"></fa-icon>
-          </th>
           <th scope="col" jhiSortBy="taskName">
             <span jhiTranslate="timesheetApp.task.taskName">Task Name</span> <fa-icon icon="sort"></fa-icon>
           </th>
@@ -58,7 +55,6 @@
           <td>
             <a [routerLink]="['/task', task.taskId, 'view']">{{ task.taskId }}</a>
           </td>
-          <td>{{ task.projectId }}</td>
           <td>{{ task.taskName }}</td>
           <td>{{ task.description }}</td>
           <td>{{ task.activeInd }}</td>

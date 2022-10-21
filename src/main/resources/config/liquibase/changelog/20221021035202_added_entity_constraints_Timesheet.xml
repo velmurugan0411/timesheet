@@ -13,5 +13,11 @@
                                  constraintName="fk_timesheet__timesheet_status_id_id"
                                  referencedColumnNames="timesheet_status_id"
                                  referencedTableName="timesheet_status"/>
+
+        <addForeignKeyConstraint baseColumnNames="user_id_id"
+                                 baseTableName="timesheet"
+                                 constraintName="fk_timesheet__user_id_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"/>
     </changeSet>
 </databaseChangeLog>

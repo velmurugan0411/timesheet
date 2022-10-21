@@ -18,13 +18,12 @@
         "title": "Timesheet"
       },
       "timesheetId": "Timesheet Id",
-      "userId": "User Id",
-      "timesheetStatusId": "Timesheet Status Id",
       "periodStartingDate": "Period Starting Date",
       "periodEndingDate": "Period Ending Date",
       "notes": "Notes",
       "timesheetId": "Timesheet Id",
-      "timesheetStatusId": "Timesheet Status Id"
+      "timesheetStatusId": "Timesheet Status Id",
+      "userId": "User Id"
     }
   }
 }

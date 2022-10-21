@@ -35,9 +35,6 @@
           <th scope="col" jhiSortBy="projectId">
             <span jhiTranslate="timesheetApp.project.projectId">Project Id</span> <fa-icon icon="sort"></fa-icon>
           </th>
-          <th scope="col" jhiSortBy="customerId">
-            <span jhiTranslate="timesheetApp.project.customerId">Customer Id</span> <fa-icon icon="sort"></fa-icon>
-          </th>
           <th scope="col" jhiSortBy="projectName">
             <span jhiTranslate="timesheetApp.project.projectName">Project Name</span> <fa-icon icon="sort"></fa-icon>
           </th>
@@ -61,7 +58,6 @@
           <td>
             <a [routerLink]="['/project', project.projectId, 'view']">{{ project.projectId }}</a>
           </td>
-          <td>{{ project.customerId }}</td>
           <td>{{ project.projectName }}</td>
           <td>{{ project.description }}</td>
           <td>{{ project.startDate | formatMediumDatetime }}</td>

@@ -18,7 +18,6 @@ type TaskFormDefaults = Pick<NewTask, 'taskId' | 'activeInd'>;
 
 type TaskFormGroupContent = {
   taskId: FormControl<ITask['taskId'] | NewTask['taskId']>;
-  projectId: FormControl<ITask['projectId']>;
   taskName: FormControl<ITask['taskName']>;
   description: FormControl<ITask['description']>;
   activeInd: FormControl<ITask['activeInd']>;
@@ -42,9 +41,6 @@ export class TaskFormService {
           validators: [Validators.required],
         }
       ),
-      projectId: new FormControl(taskRawValue.projectId, {
-        validators: [Validators.required],
-      }),
       taskName: new FormControl(taskRawValue.taskName),
       description: new FormControl(taskRawValue.description),
       activeInd: new FormControl(taskRawValue.activeInd),

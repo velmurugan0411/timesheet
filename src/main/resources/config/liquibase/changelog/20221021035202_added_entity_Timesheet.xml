@@ -14,12 +14,6 @@
             <column name="timesheet_id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="user_id" type="bigint">
-                <constraints nullable="false" />
-            </column>
-            <column name="timesheet_status_id" type="bigint">
-                <constraints nullable="false" />
-            </column>
             <column name="period_starting_date" type="${datetimeType}">
                 <constraints nullable="false" />
             </column>
@@ -30,7 +24,10 @@
                 <constraints nullable="true" />
             </column>
             <column name="timesheet_status_id_timesheet_status_id" type="bigint">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
+            </column>
+            <column name="user_id_id" type="bigint">
+                <constraints nullable="false" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
@@ -55,11 +52,11 @@
                   tableName="timesheet"
                   usePreparedStatements="true">
             <column name="timesheet_id" type="numeric"/>
-            <column name="user_id" type="numeric"/>
-            <column name="timesheet_status_id" type="numeric"/>
             <column name="period_starting_date" type="date"/>
             <column name="period_ending_date" type="date"/>
             <column name="notes" type="string"/>
+            <column name="timesheet_status_id_timesheet_status_id" type="numeric"/>
+            <column name="user_id_id" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

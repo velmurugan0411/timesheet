@@ -30,27 +30,6 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" jhiTranslate="timesheetApp.task.projectId" for="field_projectId">Project Id</label>
-          <input type="number" class="form-control" name="projectId" id="field_projectId" data-cy="projectId" formControlName="projectId" />
-          <div *ngIf="editForm.get('projectId')!.invalid && (editForm.get('projectId')!.dirty || editForm.get('projectId')!.touched)">
-            <small
-              class="form-text text-danger"
-              *ngIf="editForm.get('projectId')?.errors?.required"
-              jhiTranslate="entity.validation.required"
-            >
-              This field is required.
-            </small>
-            <small
-              class="form-text text-danger"
-              [hidden]="!editForm.get('projectId')?.errors?.number"
-              jhiTranslate="entity.validation.number"
-            >
-              This field should be a number.
-            </small>
-          </div>
-        </div>
-
-        <div class="row mb-3">
           <label class="form-label" jhiTranslate="timesheetApp.task.taskName" for="field_taskName">Task Name</label>
           <input type="text" class="form-control" name="taskName" id="field_taskName" data-cy="taskName" formControlName="taskName" />
         </div>

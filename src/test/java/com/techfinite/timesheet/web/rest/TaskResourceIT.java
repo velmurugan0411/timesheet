@@ -30,9 +30,6 @@ import org.springframework.transaction.annotation.Transactional;
 @WithMockUser
 class TaskResourceIT {
 
-    private static final Long DEFAULT_PROJECT_ID = 1L;
-    private static final Long UPDATED_PROJECT_ID = 2L;
-
     private static final String DEFAULT_TASK_NAME = "AAAAAAAAAA";
     private static final String UPDATED_TASK_NAME = "BBBBBBBBBB";
 
@@ -66,11 +63,7 @@ class TaskResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Task createEntity(EntityManager em) {
-        Task task = new Task()
-            .projectId(DEFAULT_PROJECT_ID)
-            .taskName(DEFAULT_TASK_NAME)
-            .description(DEFAULT_DESCRIPTION)
-            .activeInd(DEFAULT_ACTIVE_IND);
+        Task task = new Task().taskName(DEFAULT_TASK_NAME).description(DEFAULT_DESCRIPTION).activeInd(DEFAULT_ACTIVE_IND);
         // Add required entity
         Project project;
         if (TestUtil.findAll(em, Project.class).isEmpty()) {
@@ -91,11 +84,7 @@ class TaskResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Task createUpdatedEntity(EntityManager em) {
-        Task task = new Task()
-            .projectId(UPDATED_PROJECT_ID)
-            .taskName(UPDATED_TASK_NAME)
-            .description(UPDATED_DESCRIPTION)
-            .activeInd(UPDATED_ACTIVE_IND);
+        Task task = new Task().taskName(UPDATED_TASK_NAME).description(UPDATED_DESCRIPTION).activeInd(UPDATED_ACTIVE_IND);
         // Add required entity
         Project project;
         if (TestUtil.findAll(em, Project.class).isEmpty()) {
@@ -127,7 +116,6 @@ class TaskResourceIT {
         List<Task> taskList = taskRepository.findAll();
         assertThat(taskList).hasSize(databaseSizeBeforeCreate + 1);
         Task testTask = taskList.get(taskList.size() - 1);
-        assertThat(testTask.getProjectId()).isEqualTo(DEFAULT_PROJECT_ID);
         assertThat(testTask.getTaskName()).isEqualTo(DEFAULT_TASK_NAME);
         assertThat(testTask.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
         assertThat(testTask.getActiveInd()).isEqualTo(DEFAULT_ACTIVE_IND);
@@ -153,23 +141,6 @@ class TaskResourceIT {
 
     @Test
     @Transactional
-    void checkProjectIdIsRequired() throws Exception {
-        int databaseSizeBeforeTest = taskRepository.findAll().size();
-        // set the field null
-        task.setProjectId(null);
-
-        // Create the Task, which fails.
-
-        restTaskMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(task)))
-            .andExpect(status().isBadRequest());
-
-        List<Task> taskList = taskRepository.findAll();
-        assertThat(taskList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     void getAllTasks() throws Exception {
         // Initialize the database
         taskRepository.saveAndFlush(task);
@@ -180,7 +151,6 @@ class TaskResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].taskId").value(hasItem(task.getTaskId().intValue())))
-            .andExpect(jsonPath("$.[*].projectId").value(hasItem(DEFAULT_PROJECT_ID.intValue())))
             .andExpect(jsonPath("$.[*].taskName").value(hasItem(DEFAULT_TASK_NAME)))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
             .andExpect(jsonPath("$.[*].activeInd").value(hasItem(DEFAULT_ACTIVE_IND.booleanValue())));
@@ -198,7 +168,6 @@ class TaskResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.taskId").value(task.getTaskId().intValue()))
-            .andExpect(jsonPath("$.projectId").value(DEFAULT_PROJECT_ID.intValue()))
             .andExpect(jsonPath("$.taskName").value(DEFAULT_TASK_NAME))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION))
             .andExpect(jsonPath("$.activeInd").value(DEFAULT_ACTIVE_IND.booleanValue()));
@@ -223,11 +192,7 @@ class TaskResourceIT {
         Task updatedTask = taskRepository.findById(task.getTaskId()).get();
         // Disconnect from session so that the updates on updatedTask are not directly saved in db
         em.detach(updatedTask);
-        updatedTask
-            .projectId(UPDATED_PROJECT_ID)
-            .taskName(UPDATED_TASK_NAME)
-            .description(UPDATED_DESCRIPTION)
-            .activeInd(UPDATED_ACTIVE_IND);
+        updatedTask.taskName(UPDATED_TASK_NAME).description(UPDATED_DESCRIPTION).activeInd(UPDATED_ACTIVE_IND);
 
         restTaskMockMvc
             .perform(
@@ -241,7 +206,6 @@ class TaskResourceIT {
         List<Task> taskList = taskRepository.findAll();
         assertThat(taskList).hasSize(databaseSizeBeforeUpdate);
         Task testTask = taskList.get(taskList.size() - 1);
-        assertThat(testTask.getProjectId()).isEqualTo(UPDATED_PROJECT_ID);
         assertThat(testTask.getTaskName()).isEqualTo(UPDATED_TASK_NAME);
         assertThat(testTask.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
         assertThat(testTask.getActiveInd()).isEqualTo(UPDATED_ACTIVE_IND);
@@ -315,7 +279,7 @@ class TaskResourceIT {
         Task partialUpdatedTask = new Task();
         partialUpdatedTask.setTaskId(task.getTaskId());
 
-        partialUpdatedTask.taskName(UPDATED_TASK_NAME).activeInd(UPDATED_ACTIVE_IND);
+        partialUpdatedTask.description(UPDATED_DESCRIPTION);
 
         restTaskMockMvc
             .perform(
@@ -329,10 +293,9 @@ class TaskResourceIT {
         List<Task> taskList = taskRepository.findAll();
         assertThat(taskList).hasSize(databaseSizeBeforeUpdate);
         Task testTask = taskList.get(taskList.size() - 1);
-        assertThat(testTask.getProjectId()).isEqualTo(DEFAULT_PROJECT_ID);
-        assertThat(testTask.getTaskName()).isEqualTo(UPDATED_TASK_NAME);
-        assertThat(testTask.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
-        assertThat(testTask.getActiveInd()).isEqualTo(UPDATED_ACTIVE_IND);
+        assertThat(testTask.getTaskName()).isEqualTo(DEFAULT_TASK_NAME);
+        assertThat(testTask.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
+        assertThat(testTask.getActiveInd()).isEqualTo(DEFAULT_ACTIVE_IND);
     }
 
     @Test
@@ -347,11 +310,7 @@ class TaskResourceIT {
         Task partialUpdatedTask = new Task();
         partialUpdatedTask.setTaskId(task.getTaskId());
 
-        partialUpdatedTask
-            .projectId(UPDATED_PROJECT_ID)
-            .taskName(UPDATED_TASK_NAME)
-            .description(UPDATED_DESCRIPTION)
-            .activeInd(UPDATED_ACTIVE_IND);
+        partialUpdatedTask.taskName(UPDATED_TASK_NAME).description(UPDATED_DESCRIPTION).activeInd(UPDATED_ACTIVE_IND);
 
         restTaskMockMvc
             .perform(
@@ -365,7 +324,6 @@ class TaskResourceIT {
         List<Task> taskList = taskRepository.findAll();
         assertThat(taskList).hasSize(databaseSizeBeforeUpdate);
         Task testTask = taskList.get(taskList.size() - 1);
-        assertThat(testTask.getProjectId()).isEqualTo(UPDATED_PROJECT_ID);
         assertThat(testTask.getTaskName()).isEqualTo(UPDATED_TASK_NAME);
         assertThat(testTask.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
         assertThat(testTask.getActiveInd()).isEqualTo(UPDATED_ACTIVE_IND);

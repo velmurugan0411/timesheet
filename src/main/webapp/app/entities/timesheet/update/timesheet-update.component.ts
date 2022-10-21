@@ -9,6 +9,8 @@ import { ITimesheet } from '../timesheet.model';
 import { TimesheetService } from '../service/timesheet.service';
 import { ITimesheetStatus } from 'app/entities/timesheet-status/timesheet-status.model';
 import { TimesheetStatusService } from 'app/entities/timesheet-status/service/timesheet-status.service';
+import { IUser } from 'app/entities/user/user.model';
+import { UserService } from 'app/entities/user/user.service';
 
 @Component({
   selector: 'jhi-timesheet-update',
@@ -19,6 +21,7 @@ export class TimesheetUpdateComponent implements OnInit {
   timesheet: ITimesheet | null = null;
 
   timesheetStatusesSharedCollection: ITimesheetStatus[] = [];
+  usersSharedCollection: IUser[] = [];
 
   editForm: TimesheetFormGroup = this.timesheetFormService.createTimesheetFormGroup();
 
@@ -26,11 +29,14 @@ export class TimesheetUpdateComponent implements OnInit {
     protected timesheetService: TimesheetService,
     protected timesheetFormService: TimesheetFormService,
     protected timesheetStatusService: TimesheetStatusService,
+    protected userService: UserService,
     protected activatedRoute: ActivatedRoute
   ) {}
 
   compareTimesheetStatus = (o1: ITimesheetStatus | null, o2: ITimesheetStatus | null): boolean =>
     this.timesheetStatusService.compareTimesheetStatus(o1, o2);
+
+  compareUser = (o1: IUser | null, o2: IUser | null): boolean => this.userService.compareUser(o1, o2);
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ timesheet }) => {
@@ -84,6 +90,7 @@ export class TimesheetUpdateComponent implements OnInit {
       this.timesheetStatusesSharedCollection,
       timesheet.timesheetStatusId
     );
+    this.usersSharedCollection = this.userService.addUserToCollectionIfMissing<IUser>(this.usersSharedCollection, timesheet.userId);
   }
 
   protected loadRelationshipsOptions(): void {
@@ -99,5 +106,11 @@ export class TimesheetUpdateComponent implements OnInit {
         )
       )
       .subscribe((timesheetStatuses: ITimesheetStatus[]) => (this.timesheetStatusesSharedCollection = timesheetStatuses));
+
+    this.userService
+      .query()
+      .pipe(map((res: HttpResponse<IUser[]>) => res.body ?? []))
+      .pipe(map((users: IUser[]) => this.userService.addUserToCollectionIfMissing<IUser>(users, this.timesheet?.userId)))
+      .subscribe((users: IUser[]) => (this.usersSharedCollection = users));
   }
 }
