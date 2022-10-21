@@ -1,0 +1,82 @@
+<div>
+  <h2 id="page-heading" data-cy="TimesheetStatusHeading">
+    <span jhiTranslate="timesheetApp.timesheetStatus.home.title">Timesheet Statuses</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="timesheetApp.timesheetStatus.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-timesheet-status"
+        [routerLink]="['/timesheet-status/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="timesheetApp.timesheetStatus.home.createLabel"> Create a new Timesheet Status </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="timesheetStatuses?.length === 0">
+    <span jhiTranslate="timesheetApp.timesheetStatus.home.notFound">No Timesheet Statuses found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="timesheetStatuses && timesheetStatuses.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="timesheetStatusId">
+            <span jhiTranslate="timesheetApp.timesheetStatus.timesheetStatusId">Timesheet Status Id</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="statusName">
+            <span jhiTranslate="timesheetApp.timesheetStatus.statusName">Status Name</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let timesheetStatus of timesheetStatuses; trackBy: trackTimesheetStatusId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/timesheet-status', timesheetStatus.timesheetStatusId, 'view']">{{ timesheetStatus.timesheetStatusId }}</a>
+          </td>
+          <td>{{ timesheetStatus.statusName }}</td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/timesheet-status', timesheetStatus.timesheetStatusId, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/timesheet-status', timesheetStatus.timesheetStatusId, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(timesheetStatus)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

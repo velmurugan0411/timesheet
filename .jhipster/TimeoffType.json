@@ -1,0 +1,29 @@
+{
+  "applications": ["timesheet"],
+  "changelogDate": "20221021035402",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "timeoff_type",
+  "fields": [
+    {
+      "fieldName": "timeoffTypeId",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"],
+      "options": {
+        "id": true
+      }
+    },
+    {
+      "fieldName": "typeName",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "TimeOff Type",
+  "jpaMetamodelFiltering": false,
+  "name": "TimeoffType",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "serviceClass"
+}

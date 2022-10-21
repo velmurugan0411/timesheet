@@ -1,0 +1,81 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-timesheet-status-heading"
+        data-cy="TimesheetStatusCreateUpdateHeading"
+        jhiTranslate="timesheetApp.timesheetStatus.home.createOrEditLabel"
+      >
+        Create or edit a Timesheet Status
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.timesheetStatusId.value !== null">
+          <label class="form-label" jhiTranslate="timesheetApp.timesheetStatus.timesheetStatusId" for="field_timesheetStatusId"
+            >Timesheet Status Id</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            name="timesheetStatusId"
+            id="field_timesheetStatusId"
+            data-cy="timesheetStatusId"
+            formControlName="timesheetStatusId"
+            [readonly]="true"
+          />
+          <div
+            *ngIf="
+              editForm.get('timesheetStatusId')!.invalid &&
+              (editForm.get('timesheetStatusId')!.dirty || editForm.get('timesheetStatusId')!.touched)
+            "
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('timesheetStatusId')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('timesheetStatusId')?.errors?.number"
+              jhiTranslate="entity.validation.number"
+            >
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="timesheetApp.timesheetStatus.statusName" for="field_statusName">Status Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="statusName"
+            id="field_statusName"
+            data-cy="statusName"
+            formControlName="statusName"
+          />
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

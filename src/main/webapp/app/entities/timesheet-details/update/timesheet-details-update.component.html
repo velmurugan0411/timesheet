@@ -1,0 +1,250 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-timesheet-details-heading"
+        data-cy="TimesheetDetailsCreateUpdateHeading"
+        jhiTranslate="timesheetApp.timesheetDetails.home.createOrEditLabel"
+      >
+        Create or edit a Timesheet Details
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.timesheetDetailsId.value !== null">
+          <label class="form-label" jhiTranslate="timesheetApp.timesheetDetails.timesheetDetailsId" for="field_timesheetDetailsId"
+            >Timesheet Details Id</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            name="timesheetDetailsId"
+            id="field_timesheetDetailsId"
+            data-cy="timesheetDetailsId"
+            formControlName="timesheetDetailsId"
+            [readonly]="true"
+          />
+          <div
+            *ngIf="
+              editForm.get('timesheetDetailsId')!.invalid &&
+              (editForm.get('timesheetDetailsId')!.dirty || editForm.get('timesheetDetailsId')!.touched)
+            "
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('timesheetDetailsId')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('timesheetDetailsId')?.errors?.number"
+              jhiTranslate="entity.validation.number"
+            >
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="timesheetApp.timesheetDetails.taskId" for="field_taskId">Task Id</label>
+          <input type="number" class="form-control" name="taskId" id="field_taskId" data-cy="taskId" formControlName="taskId" />
+          <div *ngIf="editForm.get('taskId')!.invalid && (editForm.get('taskId')!.dirty || editForm.get('taskId')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('taskId')?.errors?.required" jhiTranslate="entity.validation.required">
+              This field is required.
+            </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('taskId')?.errors?.number" jhiTranslate="entity.validation.number">
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="timesheetApp.timesheetDetails.timesheetId" for="field_timesheetId">Timesheet Id</label>
+          <input
+            type="number"
+            class="form-control"
+            name="timesheetId"
+            id="field_timesheetId"
+            data-cy="timesheetId"
+            formControlName="timesheetId"
+          />
+          <div *ngIf="editForm.get('timesheetId')!.invalid && (editForm.get('timesheetId')!.dirty || editForm.get('timesheetId')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('timesheetId')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('timesheetId')?.errors?.number"
+              jhiTranslate="entity.validation.number"
+            >
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="timesheetApp.timesheetDetails.timeoffTypeId" for="field_timeoffTypeId"
+            >Timeoff Type Id</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            name="timeoffTypeId"
+            id="field_timeoffTypeId"
+            data-cy="timeoffTypeId"
+            formControlName="timeoffTypeId"
+          />
+          <div
+            *ngIf="
+              editForm.get('timeoffTypeId')!.invalid && (editForm.get('timeoffTypeId')!.dirty || editForm.get('timeoffTypeId')!.touched)
+            "
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('timeoffTypeId')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('timeoffTypeId')?.errors?.number"
+              jhiTranslate="entity.validation.number"
+            >
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="timesheetApp.timesheetDetails.workdate" for="field_workdate">Workdate</label>
+          <div class="d-flex">
+            <input
+              id="field_workdate"
+              data-cy="workdate"
+              type="datetime-local"
+              class="form-control"
+              name="workdate"
+              formControlName="workdate"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+          <div *ngIf="editForm.get('workdate')!.invalid && (editForm.get('workdate')!.dirty || editForm.get('workdate')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('workdate')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('workdate')?.errors?.datetimelocal"
+              jhiTranslate="entity.validation.datetimelocal"
+            >
+              This field should be a date and time.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="timesheetApp.timesheetDetails.hours" for="field_hours">Hours</label>
+          <input type="number" class="form-control" name="hours" id="field_hours" data-cy="hours" formControlName="hours" />
+          <div *ngIf="editForm.get('hours')!.invalid && (editForm.get('hours')!.dirty || editForm.get('hours')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('hours')?.errors?.required" jhiTranslate="entity.validation.required">
+              This field is required.
+            </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('hours')?.errors?.number" jhiTranslate="entity.validation.number">
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="timesheetApp.timesheetDetails.timeoffTypeId" for="field_timeoffTypeId"
+            >Timeoff Type Id</label
+          >
+          <select
+            class="form-control"
+            id="field_timeoffTypeId"
+            data-cy="timeoffTypeId"
+            name="timeoffTypeId"
+            formControlName="timeoffTypeId"
+            [compareWith]="compareTimeoffType"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="timeoffTypeOption" *ngFor="let timeoffTypeOption of timeoffTypesSharedCollection">
+              {{ timeoffTypeOption.timeoffTypeId }}
+            </option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="timesheetApp.timesheetDetails.taskId" for="field_taskId">Task Id</label>
+          <select
+            class="form-control"
+            id="field_taskId"
+            data-cy="taskId"
+            name="taskId"
+            formControlName="taskId"
+            [compareWith]="compareTask"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="taskOption" *ngFor="let taskOption of tasksSharedCollection">{{ taskOption.taskId }}</option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="timesheetApp.timesheetDetails.timesheetId" for="field_timesheetId">Timesheet Id</label>
+          <select
+            class="form-control"
+            id="field_timesheetId"
+            data-cy="timesheetId"
+            name="timesheetId"
+            formControlName="timesheetId"
+            [compareWith]="compareTimesheet"
+          >
+            <option *ngIf="editForm.get(['timesheetId'])!.value == null" [ngValue]="null" selected></option>
+            <option [ngValue]="timesheetOption" *ngFor="let timesheetOption of timesheetsSharedCollection">
+              {{ timesheetOption.timesheetId }}
+            </option>
+          </select>
+        </div>
+        <div
+          *ngIf="editForm.get(['timesheetId'])!.invalid && (editForm.get(['timesheetId'])!.dirty || editForm.get(['timesheetId'])!.touched)"
+        >
+          <small
+            class="form-text text-danger"
+            *ngIf="editForm.get(['timesheetId'])?.errors?.required"
+            jhiTranslate="entity.validation.required"
+          >
+            This field is required.
+          </small>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

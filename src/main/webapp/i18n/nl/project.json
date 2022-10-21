@@ -1,0 +1,30 @@
+{
+  "timesheetApp": {
+    "project": {
+      "home": {
+        "title": "Projects",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Maak een nieuwe Project",
+        "createOrEditLabel": "Maak of wijzig een Project",
+        "notFound": "No Projects found"
+      },
+      "created": "A new Project is created with identifier {{ param }}",
+      "updated": "A Project is updated with identifier {{ param }}",
+      "deleted": "A Project is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Bent u zeker dat u Project {{ id }} wilt verwijderen?"
+      },
+      "detail": {
+        "title": "Project"
+      },
+      "projectId": "Project Id",
+      "customerId": "Customer Id",
+      "projectName": "Project Name",
+      "description": "Description",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "projectId": "Project Id",
+      "customerId": "Customer Id"
+    }
+  }
+}

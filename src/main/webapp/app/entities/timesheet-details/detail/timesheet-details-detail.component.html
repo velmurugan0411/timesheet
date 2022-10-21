@@ -1,0 +1,72 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="timesheetDetails">
+      <h2 data-cy="timesheetDetailsDetailsHeading">
+        <span jhiTranslate="timesheetApp.timesheetDetails.detail.title">Timesheet Details</span>
+      </h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="timesheetApp.timesheetDetails.timesheetDetailsId">Timesheet Details Id</span></dt>
+        <dd>
+          <span>{{ timesheetDetails.timesheetDetailsId }}</span>
+        </dd>
+        <dt><span jhiTranslate="timesheetApp.timesheetDetails.taskId">Task Id</span></dt>
+        <dd>
+          <span>{{ timesheetDetails.taskId }}</span>
+        </dd>
+        <dt><span jhiTranslate="timesheetApp.timesheetDetails.timesheetId">Timesheet Id</span></dt>
+        <dd>
+          <span>{{ timesheetDetails.timesheetId }}</span>
+        </dd>
+        <dt><span jhiTranslate="timesheetApp.timesheetDetails.timeoffTypeId">Timeoff Type Id</span></dt>
+        <dd>
+          <span>{{ timesheetDetails.timeoffTypeId }}</span>
+        </dd>
+        <dt><span jhiTranslate="timesheetApp.timesheetDetails.workdate">Workdate</span></dt>
+        <dd>
+          <span>{{ timesheetDetails.workdate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="timesheetApp.timesheetDetails.hours">Hours</span></dt>
+        <dd>
+          <span>{{ timesheetDetails.hours }}</span>
+        </dd>
+        <dt><span jhiTranslate="timesheetApp.timesheetDetails.timeoffTypeId">Timeoff Type Id</span></dt>
+        <dd>
+          <div *ngIf="timesheetDetails.timeoffTypeId">
+            <a [routerLink]="['/timeoff-type', timesheetDetails.timeoffTypeId.timeoffTypeId, 'view']">{{
+              timesheetDetails.timeoffTypeId?.timeoffTypeId
+            }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="timesheetApp.timesheetDetails.taskId">Task Id</span></dt>
+        <dd>
+          <div *ngIf="timesheetDetails.taskId">
+            <a [routerLink]="['/task', timesheetDetails.taskId.taskId, 'view']">{{ timesheetDetails.taskId?.taskId }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="timesheetApp.timesheetDetails.timesheetId">Timesheet Id</span></dt>
+        <dd>
+          <div *ngIf="timesheetDetails.timesheetId">
+            <a [routerLink]="['/timesheet', timesheetDetails.timesheetId.timesheetId, 'view']">{{
+              timesheetDetails.timesheetId?.timesheetId
+            }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/timesheet-details', timesheetDetails.timesheetDetailsId, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

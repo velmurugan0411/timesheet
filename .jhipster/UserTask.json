@@ -1,0 +1,35 @@
+{
+  "applications": ["timesheet"],
+  "changelogDate": "20221021035602",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "user_task",
+  "fields": [
+    {
+      "fieldName": "userTaskId",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"],
+      "options": {
+        "id": true
+      }
+    },
+    {
+      "fieldName": "userId",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "taskId",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "User Task",
+  "jpaMetamodelFiltering": false,
+  "name": "UserTask",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "serviceClass"
+}

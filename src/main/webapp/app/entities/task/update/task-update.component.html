@@ -1,0 +1,117 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-task-heading" data-cy="TaskCreateUpdateHeading" jhiTranslate="timesheetApp.task.home.createOrEditLabel">
+        Create or edit a Task
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.taskId.value !== null">
+          <label class="form-label" jhiTranslate="timesheetApp.task.taskId" for="field_taskId">Task Id</label>
+          <input
+            type="number"
+            class="form-control"
+            name="taskId"
+            id="field_taskId"
+            data-cy="taskId"
+            formControlName="taskId"
+            [readonly]="true"
+          />
+          <div *ngIf="editForm.get('taskId')!.invalid && (editForm.get('taskId')!.dirty || editForm.get('taskId')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('taskId')?.errors?.required" jhiTranslate="entity.validation.required">
+              This field is required.
+            </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('taskId')?.errors?.number" jhiTranslate="entity.validation.number">
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="timesheetApp.task.projectId" for="field_projectId">Project Id</label>
+          <input type="number" class="form-control" name="projectId" id="field_projectId" data-cy="projectId" formControlName="projectId" />
+          <div *ngIf="editForm.get('projectId')!.invalid && (editForm.get('projectId')!.dirty || editForm.get('projectId')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('projectId')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('projectId')?.errors?.number"
+              jhiTranslate="entity.validation.number"
+            >
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="timesheetApp.task.taskName" for="field_taskName">Task Name</label>
+          <input type="text" class="form-control" name="taskName" id="field_taskName" data-cy="taskName" formControlName="taskName" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="timesheetApp.task.description" for="field_description">Description</label>
+          <input
+            type="text"
+            class="form-control"
+            name="description"
+            id="field_description"
+            data-cy="description"
+            formControlName="description"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="timesheetApp.task.activeInd" for="field_activeInd">Active Ind</label>
+          <input type="checkbox" class="form-check" name="activeInd" id="field_activeInd" data-cy="activeInd" formControlName="activeInd" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="timesheetApp.task.projectId" for="field_projectId">Project Id</label>
+          <select
+            class="form-control"
+            id="field_projectId"
+            data-cy="projectId"
+            name="projectId"
+            formControlName="projectId"
+            [compareWith]="compareProject"
+          >
+            <option *ngIf="editForm.get(['projectId'])!.value == null" [ngValue]="null" selected></option>
+            <option [ngValue]="projectOption" *ngFor="let projectOption of projectsSharedCollection">{{ projectOption.projectId }}</option>
+          </select>
+        </div>
+        <div *ngIf="editForm.get(['projectId'])!.invalid && (editForm.get(['projectId'])!.dirty || editForm.get(['projectId'])!.touched)">
+          <small
+            class="form-text text-danger"
+            *ngIf="editForm.get(['projectId'])?.errors?.required"
+            jhiTranslate="entity.validation.required"
+          >
+            This field is required.
+          </small>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

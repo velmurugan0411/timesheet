@@ -1,0 +1,86 @@
+<div>
+  <h2 id="page-heading" data-cy="UserTaskHeading">
+    <span jhiTranslate="timesheetApp.userTask.home.title">User Tasks</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="timesheetApp.userTask.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-user-task"
+        [routerLink]="['/user-task/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="timesheetApp.userTask.home.createLabel"> Create a new User Task </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="userTasks?.length === 0">
+    <span jhiTranslate="timesheetApp.userTask.home.notFound">No User Tasks found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="userTasks && userTasks.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="userTaskId">
+            <span jhiTranslate="timesheetApp.userTask.userTaskId">User Task Id</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="userId">
+            <span jhiTranslate="timesheetApp.userTask.userId">User Id</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="taskId">
+            <span jhiTranslate="timesheetApp.userTask.taskId">Task Id</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let userTask of userTasks; trackBy: trackUserTaskId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/user-task', userTask.userTaskId, 'view']">{{ userTask.userTaskId }}</a>
+          </td>
+          <td>{{ userTask.userId }}</td>
+          <td>{{ userTask.taskId }}</td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/user-task', userTask.userTaskId, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/user-task', userTask.userTaskId, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(userTask)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

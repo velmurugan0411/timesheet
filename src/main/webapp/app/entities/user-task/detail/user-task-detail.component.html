@@ -1,0 +1,36 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="userTask">
+      <h2 data-cy="userTaskDetailsHeading"><span jhiTranslate="timesheetApp.userTask.detail.title">User Task</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="timesheetApp.userTask.userTaskId">User Task Id</span></dt>
+        <dd>
+          <span>{{ userTask.userTaskId }}</span>
+        </dd>
+        <dt><span jhiTranslate="timesheetApp.userTask.userId">User Id</span></dt>
+        <dd>
+          <span>{{ userTask.userId }}</span>
+        </dd>
+        <dt><span jhiTranslate="timesheetApp.userTask.taskId">Task Id</span></dt>
+        <dd>
+          <span>{{ userTask.taskId }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/user-task', userTask.userTaskId, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,82 @@
+<div>
+  <h2 id="page-heading" data-cy="TimeoffTypeHeading">
+    <span jhiTranslate="timesheetApp.timeoffType.home.title">Timeoff Types</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="timesheetApp.timeoffType.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-timeoff-type"
+        [routerLink]="['/timeoff-type/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="timesheetApp.timeoffType.home.createLabel"> Create a new Timeoff Type </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="timeoffTypes?.length === 0">
+    <span jhiTranslate="timesheetApp.timeoffType.home.notFound">No Timeoff Types found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="timeoffTypes && timeoffTypes.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="timeoffTypeId">
+            <span jhiTranslate="timesheetApp.timeoffType.timeoffTypeId">Timeoff Type Id</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="typeName">
+            <span jhiTranslate="timesheetApp.timeoffType.typeName">Type Name</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let timeoffType of timeoffTypes; trackBy: trackTimeoffTypeId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/timeoff-type', timeoffType.timeoffTypeId, 'view']">{{ timeoffType.timeoffTypeId }}</a>
+          </td>
+          <td>{{ timeoffType.typeName }}</td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/timeoff-type', timeoffType.timeoffTypeId, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/timeoff-type', timeoffType.timeoffTypeId, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(timeoffType)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

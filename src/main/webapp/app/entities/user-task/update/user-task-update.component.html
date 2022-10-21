@@ -1,0 +1,84 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-user-task-heading" data-cy="UserTaskCreateUpdateHeading" jhiTranslate="timesheetApp.userTask.home.createOrEditLabel">
+        Create or edit a User Task
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.userTaskId.value !== null">
+          <label class="form-label" jhiTranslate="timesheetApp.userTask.userTaskId" for="field_userTaskId">User Task Id</label>
+          <input
+            type="number"
+            class="form-control"
+            name="userTaskId"
+            id="field_userTaskId"
+            data-cy="userTaskId"
+            formControlName="userTaskId"
+            [readonly]="true"
+          />
+          <div *ngIf="editForm.get('userTaskId')!.invalid && (editForm.get('userTaskId')!.dirty || editForm.get('userTaskId')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('userTaskId')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('userTaskId')?.errors?.number"
+              jhiTranslate="entity.validation.number"
+            >
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="timesheetApp.userTask.userId" for="field_userId">User Id</label>
+          <input type="number" class="form-control" name="userId" id="field_userId" data-cy="userId" formControlName="userId" />
+          <div *ngIf="editForm.get('userId')!.invalid && (editForm.get('userId')!.dirty || editForm.get('userId')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('userId')?.errors?.required" jhiTranslate="entity.validation.required">
+              This field is required.
+            </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('userId')?.errors?.number" jhiTranslate="entity.validation.number">
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="timesheetApp.userTask.taskId" for="field_taskId">Task Id</label>
+          <input type="number" class="form-control" name="taskId" id="field_taskId" data-cy="taskId" formControlName="taskId" />
+          <div *ngIf="editForm.get('taskId')!.invalid && (editForm.get('taskId')!.dirty || editForm.get('taskId')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('taskId')?.errors?.required" jhiTranslate="entity.validation.required">
+              This field is required.
+            </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('taskId')?.errors?.number" jhiTranslate="entity.validation.number">
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

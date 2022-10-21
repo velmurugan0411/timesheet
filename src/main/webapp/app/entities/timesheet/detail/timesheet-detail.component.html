@@ -1,0 +1,56 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="timesheet">
+      <h2 data-cy="timesheetDetailsHeading"><span jhiTranslate="timesheetApp.timesheet.detail.title">Timesheet</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="timesheetApp.timesheet.timesheetId">Timesheet Id</span></dt>
+        <dd>
+          <span>{{ timesheet.timesheetId }}</span>
+        </dd>
+        <dt><span jhiTranslate="timesheetApp.timesheet.userId">User Id</span></dt>
+        <dd>
+          <span>{{ timesheet.userId }}</span>
+        </dd>
+        <dt><span jhiTranslate="timesheetApp.timesheet.timesheetStatusId">Timesheet Status Id</span></dt>
+        <dd>
+          <span>{{ timesheet.timesheetStatusId }}</span>
+        </dd>
+        <dt><span jhiTranslate="timesheetApp.timesheet.periodStartingDate">Period Starting Date</span></dt>
+        <dd>
+          <span>{{ timesheet.periodStartingDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="timesheetApp.timesheet.periodEndingDate">Period Ending Date</span></dt>
+        <dd>
+          <span>{{ timesheet.periodEndingDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="timesheetApp.timesheet.notes">Notes</span></dt>
+        <dd>
+          <span>{{ timesheet.notes }}</span>
+        </dd>
+        <dt><span jhiTranslate="timesheetApp.timesheet.timesheetStatusId">Timesheet Status Id</span></dt>
+        <dd>
+          <div *ngIf="timesheet.timesheetStatusId">
+            <a [routerLink]="['/timesheet-status', timesheet.timesheetStatusId.timesheetStatusId, 'view']">{{
+              timesheet.timesheetStatusId?.timesheetStatusId
+            }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/timesheet', timesheet.timesheetId, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

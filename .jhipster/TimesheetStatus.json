@@ -1,0 +1,29 @@
+{
+  "applications": ["timesheet"],
+  "changelogDate": "20221021035502",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "timesheet_status",
+  "fields": [
+    {
+      "fieldName": "timesheetStatusId",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"],
+      "options": {
+        "id": true
+      }
+    },
+    {
+      "fieldName": "statusName",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "Timesheet Status",
+  "jpaMetamodelFiltering": false,
+  "name": "TimesheetStatus",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [],
+  "service": "serviceClass"
+}

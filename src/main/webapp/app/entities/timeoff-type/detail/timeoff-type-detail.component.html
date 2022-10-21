@@ -1,0 +1,32 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="timeoffType">
+      <h2 data-cy="timeoffTypeDetailsHeading"><span jhiTranslate="timesheetApp.timeoffType.detail.title">Timeoff Type</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="timesheetApp.timeoffType.timeoffTypeId">Timeoff Type Id</span></dt>
+        <dd>
+          <span>{{ timeoffType.timeoffTypeId }}</span>
+        </dd>
+        <dt><span jhiTranslate="timesheetApp.timeoffType.typeName">Type Name</span></dt>
+        <dd>
+          <span>{{ timeoffType.typeName }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/timeoff-type', timeoffType.timeoffTypeId, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

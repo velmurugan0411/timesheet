@@ -1,0 +1,25 @@
+{
+  "timesheetApp": {
+    "userTask": {
+      "home": {
+        "title": "User Tasks",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Maak een nieuwe User Task",
+        "createOrEditLabel": "Maak of wijzig een User Task",
+        "notFound": "No User Tasks found"
+      },
+      "created": "A new User Task is created with identifier {{ param }}",
+      "updated": "A User Task is updated with identifier {{ param }}",
+      "deleted": "A User Task is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Bent u zeker dat u User Task {{ id }} wilt verwijderen?"
+      },
+      "detail": {
+        "title": "User Task"
+      },
+      "userTaskId": "User Task Id",
+      "userId": "User Id",
+      "taskId": "Task Id"
+    }
+  }
+}

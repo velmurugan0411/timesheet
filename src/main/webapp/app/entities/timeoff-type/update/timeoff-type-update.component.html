@@ -1,0 +1,71 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-timeoff-type-heading"
+        data-cy="TimeoffTypeCreateUpdateHeading"
+        jhiTranslate="timesheetApp.timeoffType.home.createOrEditLabel"
+      >
+        Create or edit a Timeoff Type
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.timeoffTypeId.value !== null">
+          <label class="form-label" jhiTranslate="timesheetApp.timeoffType.timeoffTypeId" for="field_timeoffTypeId">Timeoff Type Id</label>
+          <input
+            type="number"
+            class="form-control"
+            name="timeoffTypeId"
+            id="field_timeoffTypeId"
+            data-cy="timeoffTypeId"
+            formControlName="timeoffTypeId"
+            [readonly]="true"
+          />
+          <div
+            *ngIf="
+              editForm.get('timeoffTypeId')!.invalid && (editForm.get('timeoffTypeId')!.dirty || editForm.get('timeoffTypeId')!.touched)
+            "
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('timeoffTypeId')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('timeoffTypeId')?.errors?.number"
+              jhiTranslate="entity.validation.number"
+            >
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="timesheetApp.timeoffType.typeName" for="field_typeName">Type Name</label>
+          <input type="text" class="form-control" name="typeName" id="field_typeName" data-cy="typeName" formControlName="typeName" />
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

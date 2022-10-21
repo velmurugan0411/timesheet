@@ -1,0 +1,129 @@
+<div>
+  <h2 id="page-heading" data-cy="TimesheetDetailsHeading">
+    <span jhiTranslate="timesheetApp.timesheetDetails.home.title">Timesheet Details</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="timesheetApp.timesheetDetails.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-timesheet-details"
+        [routerLink]="['/timesheet-details/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="timesheetApp.timesheetDetails.home.createLabel"> Create a new Timesheet Details </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="timesheetDetails?.length === 0">
+    <span jhiTranslate="timesheetApp.timesheetDetails.home.notFound">No Timesheet Details found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="timesheetDetails && timesheetDetails.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="timesheetDetailsId">
+            <span jhiTranslate="timesheetApp.timesheetDetails.timesheetDetailsId">Timesheet Details Id</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="taskId">
+            <span jhiTranslate="timesheetApp.timesheetDetails.taskId">Task Id</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="timesheetId">
+            <span jhiTranslate="timesheetApp.timesheetDetails.timesheetId">Timesheet Id</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="timeoffTypeId">
+            <span jhiTranslate="timesheetApp.timesheetDetails.timeoffTypeId">Timeoff Type Id</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="workdate">
+            <span jhiTranslate="timesheetApp.timesheetDetails.workdate">Workdate</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="hours">
+            <span jhiTranslate="timesheetApp.timesheetDetails.hours">Hours</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="timeoffTypeId.timeoffTypeId">
+            <span jhiTranslate="timesheetApp.timesheetDetails.timeoffTypeId">Timeoff Type Id</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="taskId.taskId">
+            <span jhiTranslate="timesheetApp.timesheetDetails.taskId">Task Id</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="timesheetId.timesheetId">
+            <span jhiTranslate="timesheetApp.timesheetDetails.timesheetId">Timesheet Id</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let timesheetDetails of timesheetDetails; trackBy: trackTimesheetDetailsId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/timesheet-details', timesheetDetails.timesheetDetailsId, 'view']">{{
+              timesheetDetails.timesheetDetailsId
+            }}</a>
+          </td>
+          <td>{{ timesheetDetails.taskId }}</td>
+          <td>{{ timesheetDetails.timesheetId }}</td>
+          <td>{{ timesheetDetails.timeoffTypeId }}</td>
+          <td>{{ timesheetDetails.workdate | formatMediumDatetime }}</td>
+          <td>{{ timesheetDetails.hours }}</td>
+          <td>
+            <div *ngIf="timesheetDetails.timeoffTypeId">
+              <a [routerLink]="['/timeoff-type', timesheetDetails.timeoffTypeId.timeoffTypeId, 'view']">{{
+                timesheetDetails.timeoffTypeId?.timeoffTypeId
+              }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="timesheetDetails.taskId">
+              <a [routerLink]="['/task', timesheetDetails.taskId.taskId, 'view']">{{ timesheetDetails.taskId?.taskId }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="timesheetDetails.timesheetId">
+              <a [routerLink]="['/timesheet', timesheetDetails.timesheetId.timesheetId, 'view']">{{
+                timesheetDetails.timesheetId?.timesheetId
+              }}</a>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/timesheet-details', timesheetDetails.timesheetDetailsId, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/timesheet-details', timesheetDetails.timesheetDetailsId, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(timesheetDetails)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

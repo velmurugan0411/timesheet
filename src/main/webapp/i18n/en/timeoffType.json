@@ -1,0 +1,24 @@
+{
+  "timesheetApp": {
+    "timeoffType": {
+      "home": {
+        "title": "Timeoff Types",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Timeoff Type",
+        "createOrEditLabel": "Create or edit a Timeoff Type",
+        "notFound": "No Timeoff Types found"
+      },
+      "created": "A new Timeoff Type is created with identifier {{ param }}",
+      "updated": "A Timeoff Type is updated with identifier {{ param }}",
+      "deleted": "A Timeoff Type is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Timeoff Type {{ id }}?"
+      },
+      "detail": {
+        "title": "Timeoff Type"
+      },
+      "timeoffTypeId": "Timeoff Type Id",
+      "typeName": "Type Name"
+    }
+  }
+}

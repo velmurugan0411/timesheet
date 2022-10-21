@@ -1,0 +1,34 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="timesheetStatus">
+      <h2 data-cy="timesheetStatusDetailsHeading">
+        <span jhiTranslate="timesheetApp.timesheetStatus.detail.title">Timesheet Status</span>
+      </h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="timesheetApp.timesheetStatus.timesheetStatusId">Timesheet Status Id</span></dt>
+        <dd>
+          <span>{{ timesheetStatus.timesheetStatusId }}</span>
+        </dd>
+        <dt><span jhiTranslate="timesheetApp.timesheetStatus.statusName">Status Name</span></dt>
+        <dd>
+          <span>{{ timesheetStatus.statusName }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/timesheet-status', timesheetStatus.timesheetStatusId, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

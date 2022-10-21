@@ -1,0 +1,106 @@
+application {
+  config {
+    baseName timesheet
+    packageName com.techfinite.timesheet
+    authenticationType jwt
+    prodDatabaseType postgresql
+    devDatabaseType postgresql
+    buildTool maven
+    databaseType sql
+    clientFramework angular
+    enableTranslation true
+    nativeLanguage en
+    languages [en, nl]
+  }
+  entities *
+}
+
+
+
+/** Timesheet */
+entity Timesheet {
+    @Id timesheetId Long required
+    userId Long required
+    timesheetStatusId Long required
+    periodStartingDate Instant required
+    periodEndingDate Instant required
+    notes String
+}
+
+/** Timesheet Details */
+entity TimesheetDetails {
+    @Id timesheetDetailsId Long required
+    taskId Long required
+    timesheetId Long required
+    timeoffTypeId Long required
+    workdate Instant required
+    hours Integer required
+}
+
+
+/** TimeOff Type */
+entity TimeoffType {
+    @Id timeoffTypeId Long required
+    typeName String
+}
+
+/** Timesheet Status */
+entity TimesheetStatus {
+    @Id timesheetStatusId Long required
+    statusName String
+}
+
+/** User Task */
+entity UserTask {
+    @Id userTaskId Long required
+    userId Long required
+    taskId Long required
+}
+
+
+/**  Task */
+entity Task {
+    @Id taskId Long required
+    projectId Long required
+    taskName String
+    description String
+    activeInd Boolean
+}
+
+
+/**  Project */
+entity Project {
+    @Id projectId Long required
+    customerId Long required
+    projectName String
+    description String
+    startDate Instant required
+    endDate Instant required
+}
+
+
+/** Customer */
+entity Customer {
+    @Id customerId Long required
+    customerName String required
+    description Long required
+    activeInd Boolean
+}
+
+
+relationship ManyToOne {
+    Timesheet{timesheetStatusId} to TimesheetStatus
+    TimesheetDetails{timeoffTypeId} to TimeoffType
+    TimesheetDetails{taskId} to Task
+
+}
+
+relationship OneToMany {
+    Project{projectId} to Task{projectId required}, 
+    Customer{customerId} to Project{customerId required},
+    Timesheet{timesheetId} to TimesheetDetails{timesheetId required}
+}
+
+service * with serviceClass
+paginate Customer, Project, Task with pagination
+

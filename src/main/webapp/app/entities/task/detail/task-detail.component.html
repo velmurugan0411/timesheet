@@ -1,0 +1,50 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="task">
+      <h2 data-cy="taskDetailsHeading"><span jhiTranslate="timesheetApp.task.detail.title">Task</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="timesheetApp.task.taskId">Task Id</span></dt>
+        <dd>
+          <span>{{ task.taskId }}</span>
+        </dd>
+        <dt><span jhiTranslate="timesheetApp.task.projectId">Project Id</span></dt>
+        <dd>
+          <span>{{ task.projectId }}</span>
+        </dd>
+        <dt><span jhiTranslate="timesheetApp.task.taskName">Task Name</span></dt>
+        <dd>
+          <span>{{ task.taskName }}</span>
+        </dd>
+        <dt><span jhiTranslate="timesheetApp.task.description">Description</span></dt>
+        <dd>
+          <span>{{ task.description }}</span>
+        </dd>
+        <dt><span jhiTranslate="timesheetApp.task.activeInd">Active Ind</span></dt>
+        <dd>
+          <span>{{ task.activeInd }}</span>
+        </dd>
+        <dt><span jhiTranslate="timesheetApp.task.projectId">Project Id</span></dt>
+        <dd>
+          <div *ngIf="task.projectId">
+            <a [routerLink]="['/project', task.projectId.projectId, 'view']">{{ task.projectId?.projectId }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/task', task.taskId, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

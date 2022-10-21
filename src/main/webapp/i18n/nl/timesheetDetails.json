@@ -1,0 +1,31 @@
+{
+  "timesheetApp": {
+    "timesheetDetails": {
+      "home": {
+        "title": "Timesheet Details",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Maak een nieuwe Timesheet Details",
+        "createOrEditLabel": "Maak of wijzig een Timesheet Details",
+        "notFound": "No Timesheet Details found"
+      },
+      "created": "A new Timesheet Details is created with identifier {{ param }}",
+      "updated": "A Timesheet Details is updated with identifier {{ param }}",
+      "deleted": "A Timesheet Details is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Bent u zeker dat u Timesheet Details {{ id }} wilt verwijderen?"
+      },
+      "detail": {
+        "title": "Timesheet Details"
+      },
+      "timesheetDetailsId": "Timesheet Details Id",
+      "taskId": "Task Id",
+      "timesheetId": "Timesheet Id",
+      "timeoffTypeId": "Timeoff Type Id",
+      "workdate": "Workdate",
+      "hours": "Hours",
+      "timeoffTypeId": "Timeoff Type Id",
+      "taskId": "Task Id",
+      "timesheetId": "Timesheet Id"
+    }
+  }
+}

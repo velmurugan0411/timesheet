@@ -1,0 +1,24 @@
+{
+  "timesheetApp": {
+    "timesheetStatus": {
+      "home": {
+        "title": "Timesheet Statuses",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Timesheet Status",
+        "createOrEditLabel": "Create or edit a Timesheet Status",
+        "notFound": "No Timesheet Statuses found"
+      },
+      "created": "A new Timesheet Status is created with identifier {{ param }}",
+      "updated": "A Timesheet Status is updated with identifier {{ param }}",
+      "deleted": "A Timesheet Status is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Timesheet Status {{ id }}?"
+      },
+      "detail": {
+        "title": "Timesheet Status"
+      },
+      "timesheetStatusId": "Timesheet Status Id",
+      "statusName": "Status Name"
+    }
+  }
+}

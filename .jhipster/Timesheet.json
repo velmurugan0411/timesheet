@@ -1,0 +1,61 @@
+{
+  "applications": ["timesheet"],
+  "changelogDate": "20221021035202",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "timesheet",
+  "fields": [
+    {
+      "fieldName": "timesheetId",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"],
+      "options": {
+        "id": true
+      }
+    },
+    {
+      "fieldName": "userId",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "timesheetStatusId",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "periodStartingDate",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "periodEndingDate",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "notes",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "Timesheet",
+  "jpaMetamodelFiltering": false,
+  "name": "Timesheet",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "timesheetDetails",
+      "otherEntityRelationshipName": "timesheetId",
+      "relationshipName": "timesheetId",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "timesheetStatus",
+      "relationshipName": "timesheetStatusId",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceClass"
+}
